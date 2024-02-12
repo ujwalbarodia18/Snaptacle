@@ -1,0 +1,48 @@
+.story-circle-main {
+    width: fit-content;
+    height: 90px;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;    
+    gap: 5px;
+}
+
+.story-img {
+    height: 77px;
+    width: 77px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;    
+    position: relative;
+}
+
+.story-img-circle {
+    border: 2px solid red;
+    padding: 3px;
+}
+
+.story-img img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.my-icon-add {
+    position: absolute;
+    top: 70%;
+    left: 65%;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+
+.my-icon-hide {
+    display: none;
+}
+
+.story-circle-main > p {
+    font-size: 0.65em;
+    text-align: center;
+}

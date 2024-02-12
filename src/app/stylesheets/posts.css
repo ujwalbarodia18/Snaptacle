@@ -1,0 +1,10 @@
+.posts {
+    height: 84vh;
+    /* background-color: grey; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.posts::-webkit-scrollbar {
+    display: none;
+}

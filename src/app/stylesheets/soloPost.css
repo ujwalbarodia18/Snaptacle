@@ -1,0 +1,10 @@
+.solo-post-area {
+    width: 100%;
+    height: 84vh;
+    overflow-y: scroll;
+    /* background-color: red; */
+}
+
+.solo-post-area::-webkit-scrollbar {
+    display: none;
+}

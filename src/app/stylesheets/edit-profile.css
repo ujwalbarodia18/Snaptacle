@@ -1,0 +1,74 @@
+.edit-main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #555;
+    color: #fff;
+  }
+  
+  .edit-container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;
+    
+  }
+  
+  .edit-profile-container {
+    width: 100%;
+    height: 84vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .edit-profile-img {
+    width: 50%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: #ffffff1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    background-size: cover;
+    /* background-color: red; */
+    margin-bottom: 5vh;
+  }
+  
+  .edit-update-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  input {
+    font-size: 20px;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffffff1f;
+    outline: none;
+    color: #fff;
+  }
+  
+  input::placeholder {
+    color: #ccc;
+  }
+  
+  button {
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: #0d6efd;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 10px;
+  }

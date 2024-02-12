@@ -1,0 +1,36 @@
+
+.main-search-result {
+    width: 100%;
+    height: calc(84vh/8);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 0 5%;    
+    cursor: pointer;
+}
+
+.main-search-result img {
+    height: 8.4vh;
+    width: 8.4vh;
+
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.search-result-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-result-info h3 {
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.search-result-info p {
+    font-size: 0.8em;
+    opacity: 0.8;
+}

@@ -1,0 +1,124 @@
+.main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #555;
+    color: #fff;
+  }
+  
+.container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;
+}
+
+.main-profile {
+    height: 100%;
+    width: 100%; 
+    /* background-color: red; */
+}
+
+.profile {
+    width: 100%;
+    height: 84vh;
+    /* padding: 2vh 0; */
+    overflow-y: scroll;
+    /* background-color: red; */
+}
+
+.profile::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-info-container{
+    width: 100%;
+    /* max-height: 35vh; */
+    padding: 2vh 0;
+    border-bottom: 1px solid #222;
+    /* background-color: red; */
+}
+
+.profile-details {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10px;
+    /* background-color: yellow; */
+}
+
+.container-profile-details {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.user-details {
+    width: 100%;
+    padding: 1vh 5px 1vh 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    /* background-color: green; */
+    max-height: 15vh;
+    /* min-height: 0; */
+    height: fit-content;
+}
+
+.user-details p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bio {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8em;
+}
+
+.profile-page-buttons {
+    width: 100%;
+    /* height: 5vh; */
+    margin: 1vh 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-btn, .following-btn {    
+    display: block;
+    border: none;
+    background-color: #ffffff1f;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+    width: 90%;
+    height: 90%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.profile-follow-btn {
+    background-color: #0d6efd;
+}
+
+.edit-btn:hover {
+    background-color: #0d6efd;
+}
+
+.profile-posts-area {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px;
+    justify-content: flex-start;
+    gap: 1px;
+}
+

@@ -1,0 +1,27 @@
+.titlebar {
+    display: flex;    
+    height: 8vh;
+    /* background-color: red; */
+    background-color: #000;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;    
+    /* border-bottom: 1px solid #222; */
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.titlebar > div {
+    font-size: 1.5em;    
+}
+
+.main-title {
+    font-family: 'Mindset';
+}
+
+.other-title {
+    font-weight: 700;
+}
+
+.my-icon {
+    cursor: pointer;
+}

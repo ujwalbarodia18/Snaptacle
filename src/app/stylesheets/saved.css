@@ -1,0 +1,35 @@
+.saved-main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #555;
+    color: #fff;
+  }
+  
+  .saved-container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;
+    
+  }
+  
+  .saved-post-area {
+    width: 100%;
+    height: 84vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px;
+    justify-content: flex-start;
+    gap: 1px;
+  }
+  
+  .saved-post-area::-webkit-scrollbar {
+    display: none;
+  }
+  
+  

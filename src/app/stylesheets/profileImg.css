@@ -1,0 +1,19 @@
+.main-profile-img {
+    cursor: pointer;
+}
+
+.small-img {
+    width: 6.5vh;
+    height: 6.5vh;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.big-img {
+    width: 15vh;
+    height: 15vh;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}

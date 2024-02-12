@@ -1,0 +1,38 @@
+.main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #555;
+    color: #fff;
+  }
+  
+  .container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;
+  }
+
+.feed {
+    background-color: #000;
+}
+
+.story-section {
+  width: 100%;
+  height: 110px;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  padding-bottom: 12px;
+  gap: 8px;
+  border-bottom: 1px solid #222;
+}
+
+.story-section::-webkit-scrollbar {
+  display: none;
+}
