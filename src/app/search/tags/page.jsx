@@ -17,7 +17,7 @@ const page = () => {
                 searchTag: e.target.value,
                 authorization: cookiess[1]
             })
-            // console.log(response);
+            console.log(response);
             setPosts(response.data.posts);
         }
         catch(err) {

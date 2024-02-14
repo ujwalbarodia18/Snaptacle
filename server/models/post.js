@@ -45,16 +45,11 @@ const postModel = mongoose.model('Post', postSchema);
 //     postModel.createIndexes({
 //         tags: 'text'
 //     });
-
-    
-    // console.log('52: ', res);
 // }
-
-postModel.collection.getIndexes((err, idx) => {
-    console.log('50: ', idx);
-})
-
 // createIndex();
 
+// postModel.collection.getIndexes((err, idx) => {
+//     console.log('50: ', idx);
+// })
 
 module.exports = postModel;

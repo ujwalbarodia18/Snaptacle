@@ -32,23 +32,11 @@ const page = ({params}) => {
     
           console.log(response); // Display success message or handle accordingly
           setUser(response.data.user)
-          // router.push('../feed');
           router.push(`/profile/${id}`);
-    
-        //   console.log(id)
-          // setOwn(response.data.own);
-          // router.push({
-          //   pathname: '../profile',
-          //   query: {data: 'data'}
-          // })
-    
         }
         catch (err) {
-        //   localStorage.clear();
-        //   router.push('../login')
           console.error('Open Profile: ', err);
         }
-        // console.log('Click')
     }
 
     useEffect(() => {

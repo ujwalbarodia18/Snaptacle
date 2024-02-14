@@ -66,7 +66,7 @@ const page = () => {
     <div className="main">
       <div className="container">
         <div className="add-post">
-            <TitleBar title='Add Post'></TitleBar>
+            <TitleBar title='Add Story'></TitleBar>
             <div className="add-post-area add-story-area">          
             
             <div className="img-selector img-selector-story" onClick={handleFormClick} style={{ backgroundImage: `url(${previewImage})`}} >

@@ -1,26 +1,93 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
+require('dotenv').config();
 const {v4:uuidv4} = require('uuid');
 const path = require("path");
 const mongoose = require('mongoose')
-// mongoose.connect('mongodb+srv://ujwalb:temp123@cluster0.s8txp8u.mongodb.net/Instagram');
-// require("../models/post.js");
-// require("../models/user.js");
+const fileparser = require('../fileparser');
+const http = require('http');
+const cors = require('cors');
 
-// require('../../public/')
-
-const passport = require('passport');
 const userModel = require('../models/user');
 const postModel = require('../models/post.js')
 const storyModel = require('../models/story.js')
-mongoose.model('Post');
-const app = express();
+const chatModel = require('../models/chat.js')
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 
-const upload = require('./multer.js')
 const fs = require("fs")
+app.use(cors());
+io.use((socket, next) => {
+    // Get the token from the query parameters
+    const token = socket.handshake.query.token;
+  
+    if (!token) {
+      return next(new Error('Authentication error: Token missing'));
+    }
+  
+    // Verify the JWT token
+    jwt.verify(token, 'abcdefghijklmnopqrstuvwxyz', (err, decoded) => {
+      if (err) {
+        return next(new Error('Authentication error: Invalid token'));
+      }
+  
+      // Attach the user information to the socket for use in event handlers
+      socket.user = decoded;
+      next();
+    });
+});
+
+io.on('connection', (socket) => {
+    // Listen for new messages
+    socket.on('newMessage', async (data) => {
+    //   console.log('Id: ', data);
+        
+      // Save the message to MongoDB
+      try {
+        const id = (socket.user.userId < data.id) ? (socket.user.userId + data.id) : (data.id + socket.user.userId);
+        const chat = await chatModel.findOne({ _id: id });
+        if(chat) {
+            chat.chats.push({
+                user: socket.user.userId,
+                message: data.message
+            });
+            await chat.save();
+        }
+        else {
+            const newChat = new chatModel({
+                _id: id,
+                chats: [{
+                    user: socket.user.userId,
+                    message: data.message
+                }]                
+            });
+
+            await newChat.save();
+        }
+        socket.broadcast.emit(id, data.message);
+    }
+    catch(err) {
+        console.log('Error sending message: ', err)
+    }
+  
+      // Broadcast the new message to all connected clients
+      
+    });
+  
+    // Disconnect event
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+});
 
 router.get('/', (req, res) => {
     res.json({message: 'Hi World'})
@@ -141,6 +208,25 @@ router.post('/follow/:id', authenticateMiddleware, async(req, res) => {
 })
 
 router.post('/upload', authenticateMiddleware, async(req, res) => {
+    // console.log('Entered')
+    // await fileparser(req)
+    // .then((data) => {
+    //     console.log('Uploaded')
+    //     res.status(200).json({
+    //         message: "Success",
+    //         data
+    //     });
+    // })
+    // .catch((error) => {
+    //     console.log('Not uploaded');
+    //     return res.status(400).json({
+    //     message: "An error occurred.",
+    //     error
+    //     })
+    // })
+
+    // console.log('Done')
+
     const uniqueName = uuidv4() + req.files.file.name;
     // console.log('Body: ', req.body['tags[]']);
     // const uniqueName = 'abc' + req.files.file.name;
@@ -362,6 +448,62 @@ router.post('/getUser/:user_id', authenticateMiddleware, async(req, res) => {
     res.json({user});
 })
 
+router.post('/getChatUser', authenticateMiddleware, async(req, res) => {
+    try {
+        const user = await userModel.findOne({_id: req.userId}, {password: 0}).populate('following');
+        const chatUsers = user.following;
+        res.json({message: true, chatUsers});
+    }
+    catch(err) {
+        console.log('Error in getting chat user');
+        res.json({message: false});
+    }
+})
+
+router.post(`/postChat/:userId`, authenticateMiddleware, async(req, res) => {
+    try {
+        const chat = await chatModel.findOne({ _id: req.userId + req.params.userId }) ?? 
+                     await chatModel.findOne({ _id:  req.params.userId + req.userId });
+        if(chat) {
+            chat.chats.push({
+                user: req.userId,
+                message: req.body.message
+            });
+
+            await chat.save();
+        }
+        else {
+            const newChat = new chatModel({
+                _id: req.userId + req.params.userId,
+                chats: [{
+                    user: req.userId,
+                    message: req.body.message
+                }]                
+            });
+
+            await newChat.save();
+        }
+
+        res.json({message: true, chat});
+    }
+    catch(err) {
+        console.log('Error sending message: ', err)
+    }
+    
+});
+
+router.post(`/getChat/:userId`, authenticateMiddleware, async(req, res) => {
+    const id = (req.userId.toString() < req.params.userId.toString()) ? (req.userId.toString() + req.params.userId.toString()) : (req.params.userId.toString() + req.userId.toString());
+    const chat = await chatModel.findOne({ _id: (req.userId.toString() + req.params.userId.toString() ) }) ?? 
+                     await chatModel.findOne({ _id:  (req.params.userId.toString() + req.userId.toString() )});
+        if(chat) {
+            res.json({message: true, chat});
+        }
+        else {
+            res.json({message: false});
+        }        
+})
+
 router.post('/addPost', authenticateMiddleware, (req, res) => {
     res.json({message: true})
 });
@@ -387,6 +529,10 @@ router.post('/search/tags', async(req, res) => {
         console.log('Error in 328: ', err);
         res.json({message: false});
     }
+});
+
+io.listen(5000, () => {
+    console.log('Socket server started at 5000');
 })
 
 module.exports = router;

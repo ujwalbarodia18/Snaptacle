@@ -1,7 +1,6 @@
 const formidable = require('formidable');
 const { Upload } = require("@aws-sdk/lib-storage");
 const { S3Client, S3 } = require("@aws-sdk/client-s3");
-const { log } = require('console');
 const Transform = require('stream').Transform;
 
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -9,11 +8,11 @@ const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 const region = process.env.S3_REGION;
 const Bucket = process.env.S3_BUCKET;
 
+
+
 const parsefile = async (req) => {
-    console.log("here");
-    // console.log(req.files);
+    // console.log(accessKeyId, secretAccessKey, region, Bucket)
     return new Promise((resolve, reject) => {
-        
         let options = {
             maxFileSize: 100 * 1024 * 1024, //100 megabytes converted to bytes,
             allowEmptyFiles: false
@@ -22,8 +21,7 @@ const parsefile = async (req) => {
         const form = formidable(options);
         // method accepts the request and a callback.
         form.parse(req, (err, fields, files) => {
-            console.log(files);
-            console.log(fields, "====", files)
+            // console.log(fields, "====", files)
         });
 
         form.on('error', error => {
@@ -38,8 +36,6 @@ const parsefile = async (req) => {
         })
 
         form.on('fileBegin', (formName, file) => {
-console.log("file here");
-console.log(file);
             file.open = async function () {
                 this._writeStream = new Transform({
                     transform(chunk, encoding, callback) {
