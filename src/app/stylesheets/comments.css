@@ -1,15 +1,29 @@
 .comments-main {
     width: 100%;
-    height: 100%;
+    height: 70%;
     margin: 0;  
     padding: 0;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    background-color: #555;
+    background-color: #000;
     color: #fff;
+    border-radius: 30px;    
+  }
+
+  .title-bar {
+    height: 8vh;
+    padding: 10px 5%;
+    display: flex;    
+    align-items: center;
   }
   
+  .title-bar>div {
+    font-size: 1.5em;
+    font-weight: 700;
+    
+  }
+
   .comments-container {
     width: 412px;
     height: 100%;
@@ -18,7 +32,7 @@
   
   .comments-area {
     width: 100%;
-    height: 76vh;
+    height: 54vh;
     gap: 12px;
     overflow-y: scroll;
   }

@@ -7,19 +7,20 @@ import ProfileImg from '@/app/components/ProfileImg'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 
-const Story = ({story}) => {
+const Story = ({story, username, src}) => {
     const router = useRouter();
     const handleClose = () => {
         router.push('/feed');
     }
+    console.log('Story: ', story)
   
     return (
     <div className='story-main'>
         <div className="story-container">
             <div className='top-bar'>
                 <div className="story-user-detail">
-                    <ProfileImg src={'../../default-dp.jpg'}/>
-                    <p>user</p>
+                    <ProfileImg src={src}/>
+                    <p>{username}</p>
                 </div>
                 <div onClick={handleClose}>
                     <RiCloseFill
@@ -30,7 +31,7 @@ const Story = ({story}) => {
                 </div>
             </div>
             <div className="story-content">
-                <img src={'../../' + story?.image} alt="" />
+                <img src={story?.image} alt="" />
             </div>
         </div>
     </div>

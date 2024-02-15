@@ -6,14 +6,28 @@
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    background-color: #555;
+    background-color: #171717;
     color: #fff;
+    position: relative;
   }
   
   .container {
     width: 412px;
     height: 100%;
+    background-color: #000;          
+  }
+
+  .container-blur {
+    width: 412px;
+    height: 100%;
     background-color: #000;
+    filter: blur(9px);
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .container {
+      width: 100%;
+    }
   }
 
 .main-register {
@@ -59,6 +73,7 @@ button {
     color: #fff;
     font-weight: 700;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .main-register > p {

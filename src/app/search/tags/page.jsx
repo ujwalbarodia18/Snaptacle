@@ -50,7 +50,7 @@ const page = () => {
                 {
                     posts?.map((post) => {
                         return <div onClick={handlePostClick.bind('null', post._id)}> 
-                                <ProfilePost src={'../' + post.image} />
+                                <ProfilePost src={post.image} />
                             </div>
                     })
                 }

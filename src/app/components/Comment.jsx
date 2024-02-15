@@ -10,7 +10,7 @@ const Comment = ({comment}) => {
   return (
     <div className="main-comment">
         <div className="comment-img">
-            <img src={"../../" + comment.user.profileImg} alt="" />
+            <img src={comment.user.profileImg} alt="" />
         </div>
         <div className="comment-details">
             <h6 onClick={openProfile.bind(`null`, comment.user._id)}>{comment.user.username}</h6>

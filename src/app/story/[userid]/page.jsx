@@ -20,7 +20,7 @@ const page = ({params}) => {
       const response = await axios.post(`http://localhost:8080/getStories/${params.userid}`, {
         authorization: cookiess[1]
       });
-      console.log('Get Story:', response.data)
+      console.log('Get Story:', response.data.stories)
       setStories(response.data.stories);
       setSize(response.data.stories.stories.length);
       // router.push
@@ -36,22 +36,6 @@ const page = ({params}) => {
     getStories();
   }, [])
 
-  // if(!vis) {
-    
-  // }
-
-  // let interval = null;
-  // useEffect(() => {
-  //   if(idx == size) {          
-  //     console.log('Done');
-  //     // clearInterval(interval);  
-  //     router.push('/feed');
-  //   }  
-  // }, [idx])
-
-  // useEffect(() => {
-  //   console.log(size[0])
-  // }, [size])
 
   const routeToFeed = () => {
     router.push('/feed')
@@ -80,7 +64,7 @@ const page = ({params}) => {
       <div onClick={handleChange} style={{height: '100%'}}>
         {
           idx < size &&
-          <Story story={stories?.stories[idx]} interval={interval} />       
+          <Story story={stories?.stories[idx]} username={stories.username} src={stories.profileImg} interval={interval} />       
         }
         
       </div>

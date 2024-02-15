@@ -1,20 +1,25 @@
 .story-circle-main {
     width: fit-content;
-    height: 90px;    
+    height: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     cursor: pointer;    
     gap: 5px;
 }
 
-.story-img {
-    height: 77px;
-    width: 77px;
+.story-img {    
+    /* width: 77px; */
+    height: 90%;
+    aspect-ratio: 1/1;
     object-fit: cover;
     object-position: center;
     border-radius: 50%;    
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .story-img-circle {

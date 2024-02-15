@@ -13,12 +13,16 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     password: {
         type: String
     },
     profileImg: {
         type: String,
-        default: './default-dp.jpg'
+        default: 'https://demobktt.s3.ap-southeast-2.amazonaws.com/default-dp.jpg'
     },
     bio: {
         type: String

@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RiArrowLeftLine, RiChat1Line, RiShutDownLine } from "@remixicon/react";
 import '../stylesheets/titlebar.css'
 import { useRouter } from 'next/navigation';
-
-const TitleBar = ({title, icon, page}) => {
+import axios from 'axios'
+const cookiess = document.cookie.split('=');
+const TitleBar = ({title, icon, page, getUserId}) => {
+  // const [userId, setUserId] = useState();
   const router = useRouter();
   const handleLogout = () => {
     const cookies = document.cookie.split(';');
@@ -18,12 +20,29 @@ const TitleBar = ({title, icon, page}) => {
     router.push('../login');
   }
 
+
+  const getUser = async() => {
+    try {
+      const response = await axios.post('http://localhost:8080/getUser',{
+        authorization: cookiess[1]
+      });
+      getUserId(response.data.user);
+    }
+    catch(err) {
+      console.log('Error in getting user in TB: ', err);
+    }
+  }
+
+  useEffect(() => {
+    getUser()
+  }, []);
+
   const handleBack = () => {
     router.push('/chat');
   }
 
   const handleChat = () => {
-    router.push('chat');
+    router.push('/chat');
   }
 
   const fontChanger = title == 'Snaptacle' ? 'main-title' : 'other-title';
@@ -41,7 +60,7 @@ const TitleBar = ({title, icon, page}) => {
       
       <div className={fontChanger}>{title}</div>
       {/* <div onClick={handleLogout}> */}
-      <div>
+      <div className='right-icon'>
         {
           page != 'chat' &&
           <RiChat1Line

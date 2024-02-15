@@ -6,7 +6,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    background-color: #555;
+    background-color: #171717;
     color: #fff;
   }
   
@@ -19,6 +19,12 @@
   justify-content: center;
   position: relative;
 }
+
+@media only screen and (max-width: 1024px) {
+    .story-container {
+      width: 100%;
+    }
+  }
 
 .story-content {
     width: 100%;

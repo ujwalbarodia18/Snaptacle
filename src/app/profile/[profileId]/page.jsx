@@ -83,7 +83,7 @@ const ProfileOther = ({params}) => {
       <div className="profile">        
         <div className="profile-info-container">
           <div className="profile-details">
-            <ProfileImg src={'../' + user?.profileImg} profile={true} />
+            <ProfileImg src={user?.profileImg} profile={true} />
             <div className='container-profile-details'>
             <ProfileDetails number={posts} text='Posts'/>
                 <div onClick={handleProfileDetailsClick.bind('null', 1)}>
@@ -112,7 +112,7 @@ const ProfileOther = ({params}) => {
         
         <div className="profile-posts-area">        
           {user?.posts?.map((ele) => {
-              const url = '../' + ele.image;
+              const url = ele.image;
               return <div onClick={handleOpenPost.bind('null', ele._id)}>
                 <ProfilePost src={url} />
               </div>

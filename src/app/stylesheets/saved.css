@@ -6,7 +6,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    background-color: #555;
+    background-color: #171717;
     color: #fff;
   }
   
@@ -15,6 +15,12 @@
     height: 100%;
     background-color: #000;
     
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .saved-container {
+      width: 100%;
+    }
   }
   
   .saved-post-area {

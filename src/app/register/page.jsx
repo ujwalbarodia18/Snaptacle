@@ -11,12 +11,14 @@ const Register = () => {
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
-  
+  const [email, setEmail] = useState();
+  const [authenticationError, setAuthenticationError] = useState(false)
   const handleRegister = async () => {
     try {
       const response = await axios.post('http://localhost:8080/register', {
           name,
           username,
+          email,
           password
       });
 
@@ -24,7 +26,7 @@ const Register = () => {
       console.log(token)
       if(token) {
         document.cookie = `token=${token};path=/`;
-        axios.defaults.headers.common['Authorization'] = `${token}`;
+        // axios.defaults.headers.common['Authorization'] = `${token}`;
         // // localStorage.setItem('token', token)
         router.push('/feed');
       }
@@ -37,6 +39,7 @@ const Register = () => {
       // router.push('/feed');
       // router.push('../profile')
     } catch (error) {
+      setAuthenticationError(true)
       console.error('Registration failed', error);
     }
   }
@@ -45,9 +48,13 @@ const Register = () => {
       <div className="container">
         <div className='main-register'>
             <h1>Snaptacle</h1>
-            <input type="text" placeholder='Name' name='name' onChange={e => setName(e.target.value)}/>
-            <input type="text" placeholder='Username' name='username' onChange={e => setUsername(e.target.value)}/>
-            <input type="password" placeholder='Password' name='password' onChange={e => setPassword(e.target.value)}/>
+            <input type="text" placeholder='Name' name='name' onChange={e => setName(e.target.value)} required/>
+            <input type="text" placeholder='Username' name='username' onChange={e => setUsername(e.target.value)} required/>
+            <input type="text" placeholder='Email' name='email' onChange={e => setEmail(e.target.value)} required/>
+            <input type="password" placeholder='Password' name='password' onChange={e => setPassword(e.target.value)} required/>
+            { authenticationError &&
+              <p className='login-failed'>Credential is not correct!</p>
+            }
             <button onClick={handleRegister}>Sign up</button>
             <p>Already have an account? <Link className='highlight' href='/login'>Sign in</Link> </p>
         </div>

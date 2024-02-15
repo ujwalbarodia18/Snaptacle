@@ -75,11 +75,11 @@ const Post = ({post}) => {
   return (
     <div className="post">
       <div className="post-title">
-        <ProfileImg src={'./../../../' + post.user.profileImg} profile={false}/> 
+        <ProfileImg src={post.user.profileImg} profile={false}/> 
         <p onClick={openProfile.bind(`null`, post.user._id)}>{post.user.username}</p>
       </div>
       <div className="post-img">
-        <img src={'./../../../' + post.image} alt=""/>
+        <img src={post.image} alt=""/>
       </div>
       <div className="interactions">
         <div onClick={handleLike}>

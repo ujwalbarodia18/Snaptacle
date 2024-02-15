@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const http = require('http');
-const fileparser = require('./fileparser');
 
 
 require('dotenv').config();
@@ -63,4 +62,4 @@ app.listen(PORT, () => {
     console.log(`Server started at ${PORT}`);
 });
 
-// module.exports = server;
+module.exports = app;

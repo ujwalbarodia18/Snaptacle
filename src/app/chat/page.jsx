@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 const page = () => {
     const [chatUsers, setChatUsers] = useState();
     const router = useRouter();
+    const [currUser, setCurrUser] = useState();
     const chatPage = async() => {
         try {
             const cookiess = document.cookie.split('=');
@@ -19,6 +20,8 @@ const page = () => {
             });
             console.log('Chat user: ', response);
             setChatUsers(response.data.chatUsers)
+            setCurrUser(response.data.userId);
+
         }
         catch(err) {
             console.log(err)
@@ -26,20 +29,23 @@ const page = () => {
     }
 
     const handleOpenChat = (user_id) => {
-        router.push(`/chat/${user_id}`);
+        const roomId = user_id < currUser ? user_id + currUser : currUser + user_id;
+        router.push(`/chat/${user_id}/${roomId}`);
     }
 
     useEffect(() => {
         chatPage();
     }, [])
+
+    
   return (
     <div className="main-chats">
         <div className="container-chats">
-            <TitleBar title='Chats' page='chat'/>
+            <TitleBar title='Chats' page='chat' />
             <div className="list-area">
                 {
                     chatUsers?.map((user) => {
-                        return <div onClick={handleOpenChat.bind('null', user._id)}> <SearchResult user={user}/>         </div>                        
+                        return <div onClick={handleOpenChat.bind('null', user._id)}> <SearchResult user={user}/> </div>                        
                     })
                 }                
             </div>
