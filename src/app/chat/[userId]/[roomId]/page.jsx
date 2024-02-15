@@ -5,16 +5,16 @@ import "../../../stylesheets/chat.css";
 import ChatBubble from "../../../components/ChatBubble";
 import axios from "axios";
 import CryptoJS from 'crypto-js';
+import Cookies from 'js-cookie'
 
 const secretKey = 'th!s!ismysecretk$y';
 
 // const roomId = "65cc982aed19b9ee7253644165cc986aed19b9ee72536456";
 import { useRouter } from "next/navigation";
 import io from "socket.io-client";
-const cookiess = document.cookie.split("=");
 
 const socket = io("http://localhost:5000/", {
-	query: { token: cookiess[1] },
+	query: { token: Cookies.get('token') },
 });
 
 
@@ -38,12 +38,12 @@ const page = ({ params }) => {
 			const response = await axios.post(
 				`http://localhost:8080/getChat/${params.roomId}`,
 				{
-					authorization: cookiess[1],
+					authorization: Cookies.get('token'),
 				}
 			);
 
 			const userRes = await axios.post(`http://localhost:8080/getUser/${params.userId}`, {
-				authorization: cookiess[1],
+				authorization: Cookies.get('token'),
 			});
 			console.log(response.data);
 			setUsername(userRes.data.user.username);

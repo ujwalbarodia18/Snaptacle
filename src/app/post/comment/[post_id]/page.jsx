@@ -5,21 +5,20 @@ import Comment from '../../../components/Comment'
 import Navbar from '@/app/components/NavBar'
 import '../../../stylesheets/comments.css'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const page = ({params}) => {
     const [comment, setComment] = useState('');
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const [allComments, setAllComments] = useState([]);
     const [loading, setLoading] = useState(true);
     
     const handleComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/addComment/${params.post_id}`, {comment, authorization: cookiess[1]});            
+            const response = await axios.post(`http://localhost:8080/addComment/${params.post_id}`, {comment, authorization: Cookies.get('token')});            
             setComment('')
             console.log(response);
             getComments();
-            // setAllComments(response.data.comments);
-            // setLoading(false)
         }
         catch(err) {
             console.log('Error in Handling comment: ', err);

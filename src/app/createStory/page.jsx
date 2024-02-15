@@ -1,14 +1,16 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../stylesheets/addPost.css'
 import TitleBar from '../components/TitleBar'
 import { RiAddLine } from "@remixicon/react";
 import { useRouter } from 'next/navigation'
 import NavBar from '../components/NavBar'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const page = () => {
 
+  const imgInputRef = useRef()
     const router = useRouter();
   const [caption, setCaption] = useState();
 
@@ -35,16 +37,16 @@ const page = () => {
   }
 
   const handleFormClick = () => {
-    const imgInput = document.querySelector('.img-input');
-    imgInput.click();
+    const imgInput = imgInputRef;
+    imgInput.current.click();
   }
 
   const handleUploadSubmit = async() => {
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const response = await axios.post('http://localhost:8080/createStory', {file, authorization: cookiess[1]} ,{
+      const response = await axios.post('http://localhost:8080/createStory', {file, authorization: Cookies.get('token')} ,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },        
@@ -70,7 +72,7 @@ const page = () => {
             <div className="add-post-area add-story-area">          
             
             <div className="img-selector img-selector-story" onClick={handleFormClick} style={{ backgroundImage: `url(${previewImage})`}} >
-                <input className='img-input' accept='image/*' type="file" name='file' onChange={handleImgChange} hidden/>
+                <input className='img-input' accept='image/*' type="file" name='file' ref={imgInputRef} onChange={handleImgChange} hidden/>
                 {
                 !previewImage &&
                 <RiAddLine

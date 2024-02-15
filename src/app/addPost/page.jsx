@@ -19,7 +19,7 @@ const AddPost = () => {
   
   const handleImgChange = async(e) => {
     const selectFile = e.target.files[0];
-    await setFile(e.target.files[0]);
+    setFile(e.target.files[0]);
     // const imgSelector = document.querySelector('.img-selector');
     console.log('Click')
     const reader = new FileReader();

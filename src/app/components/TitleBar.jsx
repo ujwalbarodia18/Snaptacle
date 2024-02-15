@@ -4,27 +4,31 @@ import { RiArrowLeftLine, RiChat1Line, RiShutDownLine } from "@remixicon/react";
 import '../stylesheets/titlebar.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
-const cookiess = document.cookie.split('=');
+import Cookies from 'js-cookie'
+
 const TitleBar = ({title, icon, page, getUserId}) => {
+  // const cookiess = document.cookie.split('=');
   // const [userId, setUserId] = useState();
+  console.log('Cookie: ', Cookies.get('token'));
   const router = useRouter();
   const handleLogout = () => {
-    const cookies = document.cookie.split(';');
+    Cookies.remove('token');
+    // const cookies = document.cookie.split(';');
 
     // Loop through each cookie and set its expiration to the past
-    cookies.forEach(cookie => {
-      const cookieParts = cookie.split('=');
-      const cookieName = cookieParts[0].trim();
-      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
-    router.push('../login');
+    // cookies.forEach(cookie => {
+    //   const cookieParts = cookie.split('=');
+    //   const cookieName = cookieParts[0].trim();
+    //   document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    // });
+    router.push('/login');
   }
 
 
   const getUser = async() => {
     try {
       const response = await axios.post('http://localhost:8080/getUser',{
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       getUserId(response.data.user);
     }

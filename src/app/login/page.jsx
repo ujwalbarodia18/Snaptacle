@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Otp from '../components/Otp';
+import Cookies from 'js-cookie'
 
 const Login = () => {
   const router = useRouter();
@@ -26,11 +27,13 @@ const Login = () => {
       
       // console.log(token)
       if(response.data.token) {
+        Cookies.set('token', response.data.token)
         setToken(response.data.token)  
         // axios.defaults.headers.common['Authorization'] = `${token}`;
         // localStorage.setItem('token', token)
         setIsOTP(true)
         setEmail(response.data.email)
+        
         // router.push('/login/');
       }
       else {

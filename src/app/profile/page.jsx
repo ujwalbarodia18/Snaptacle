@@ -8,6 +8,7 @@ import ProfilePost from '../components/ProfilePost'
 import '../stylesheets/profile.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
+import Cookies from 'js-cookie'
 // import '../../../../server/public/images/uploads/'
 // import './[profileId]'
 // import '../../../server/images/uploads/newimg.jpg'
@@ -25,9 +26,9 @@ const Profile = () => {
 
   const handleProfile = async() => {    
     try {
-      const cookiess = document.cookie.split('=');
+      // const cookiess = document.cookie.split('=');
       const response = await axios.post('http://localhost:8080/profile', {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response); // Display success message or handle accordingly
       setUser(response.data.user);
@@ -106,7 +107,7 @@ const Profile = () => {
         
         <div className="profile-posts-area">
           {user?.posts?.map((ele) => {
-            return <div onClick={handleOpenPost.bind('null', ele._id)}>
+            return <div  onClick={handleOpenPost.bind('null', ele._id)}>
               <ProfilePost src={ele.image} />
             </div>
           })}

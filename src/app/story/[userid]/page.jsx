@@ -6,11 +6,12 @@ import ProfileImg from '@/app/components/ProfileImg'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import Story from '../../components/Story'
+import Cookies from "js-cookie";
 
 
 const page = ({params}) => {
   const router = useRouter();
-  const cookiess = document.cookie.split('=');
+  // const cookiess = document.cookie.split('=');
   const [stories, setStories] = useState();
   const [idx, setIdx] = useState(0);
   // const [vis, setVis] = useState(false);
@@ -18,7 +19,7 @@ const page = ({params}) => {
   const getStories = async() => {
     try {
       const response = await axios.post(`http://localhost:8080/getStories/${params.userid}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log('Get Story:', response.data.stories)
       setStories(response.data.stories);

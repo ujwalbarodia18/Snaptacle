@@ -7,14 +7,15 @@ import TitleBar from '@/app/components/TitleBar';
 import Navbar from '@/app/components/NavBar';
 import '../../stylesheets/search.css'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie';
 
 const page = ({params}) => {
     const router = useRouter();
     const [user, setUser] = useState(null)
-    const cookiess = document.cookie.split('=');;
+    // const cookiess = document.cookie.split('=');
     const handlePage = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getUser/${params.user_id}`, {authorization: cookiess[1]});
+            const response = await axios.post(`http://localhost:8080/getUser/${params.user_id}`, {authorization: Cookies.get('token')});
             // console.log(response);
             await setUser(response.data.user.followers);
         }
@@ -23,11 +24,11 @@ const page = ({params}) => {
         }
     }
     const handleClick = async(id) => {
-        const cookiess = document.cookie.split('=');
+        // const cookiess = document.cookie.split('=');
         
         try {
           const response = await axios.post(`http://localhost:8080/profile/${id}`, {        
-            authorization: cookiess[1]
+            authorization: Cookies.get('token')
           });
     
           console.log(response); // Display success message or handle accordingly
@@ -38,6 +39,7 @@ const page = ({params}) => {
           console.error('Open Profile: ', err);
         }
     }
+
 
     useEffect(() => {
         handlePage();

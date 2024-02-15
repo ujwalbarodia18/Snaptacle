@@ -4,6 +4,7 @@ import '../stylesheets/otp.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import { RiCloseFill } from "@remixicon/react";
+import Cookies from 'js-cookie'
 
 
 const Otp = ({token, email, closeOtp}) => {
@@ -19,8 +20,7 @@ const Otp = ({token, email, closeOtp}) => {
                 OTP,
             });
 
-            if(response.data.message) {
-                document.cookie = `token=${token};path=/`;
+            if(response.data.message) {                
                 router.push('/feed');
             }
             else {

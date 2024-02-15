@@ -6,15 +6,16 @@ import Navbar from "../components/NavBar";
 import ProfilePost from '../components/ProfilePost';
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie';
 
 const page = () => {
     const router = useRouter();
     const [savedPosts, setSavedPosts] = useState([]);
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const getPost = async() => {
         try {
             const response = await axios.post('http://localhost:8080/getSavedPost', {
-                authorization: cookiess[1]
+                authorization: Cookies.get('token')
             })
             console.log(response);
             setSavedPosts(response.data.saved.saved);

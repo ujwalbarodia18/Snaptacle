@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Router from 'next/router';
 import Link from 'next/link';
+import Cookies from 'js-cookie'
 
 const Register = () => {
   const router = useRouter();
@@ -25,7 +26,8 @@ const Register = () => {
       const token = response.data.token;
       console.log(token)
       if(token) {
-        document.cookie = `token=${token};path=/`;
+        Cookies.set('token', token);
+        // document.cookie = `token=${token};path=/`;
         // axios.defaults.headers.common['Authorization'] = `${token}`;
         // // localStorage.setItem('token', token)
         router.push('/feed');

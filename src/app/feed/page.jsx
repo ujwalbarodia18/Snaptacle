@@ -8,6 +8,7 @@ import axios from 'axios'
 import '../stylesheets/feed.css'
 import '../stylesheets/posts.css'
 import CommentSection from '../components/CommentSection'
+import Cookies from 'js-cookie'
 
 import { useRouter } from 'next/navigation';
 
@@ -20,12 +21,12 @@ const Feed = () => {
 
   const [usersWithStories, setUsersWithStories] = useState();
   const [currIdx, setCurrIdx] = useState();
-  const cookiess = document.cookie.split('=');
+  
   const postFeed = async() => {
     console.log('Feed')
     try {
       const res = await axios.post('http://localhost:8080/feed', {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
 
       // console.log('Res: ', res);
@@ -42,7 +43,7 @@ const Feed = () => {
   const getStories = async(user_id, idx) => {
     try {
       const response = await axios.post(`http://localhost:8080/getStories/${user_id}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       setStories(response.data.stories);  
       setCurrIdx(idx);

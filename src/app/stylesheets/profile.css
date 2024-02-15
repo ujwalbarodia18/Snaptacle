@@ -128,3 +128,8 @@
     gap: 1px;
 }
 
+.post-div {
+    width: 33%;
+    background-color: red;
+}
+

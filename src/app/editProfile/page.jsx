@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import  "../stylesheets/edit-profile.css";
 import { useState } from "react";
 import TitleBar from '../components/TitleBar'
@@ -7,12 +7,13 @@ import Navbar from "../components/NavBar";
 import { RiAddLine } from "@remixicon/react";
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-// import './stylesheets/navbar.css'
+import Cookies from 'js-cookie';
 
 const page = () => {
     const router = useRouter();
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
+    const imgInputRef = useRef();
   
     const [file, setFile] = useState();
     const [previewImage, setPreviewImage] = useState(null);
@@ -35,17 +36,17 @@ const page = () => {
     }
   
     const handleFormClick = () => {
-      const imgInput = document.querySelector('.img-input');
-      imgInput.click();
+      const imgInput = imgInputRef;
+      imgInput.current.click();
     }
 
     const handleUploadSubmit = async() => {
-        const cookiess = document.cookie.split('=');
+        // const cookiess = document.cookie.split('=');
         const formData = new FormData();
         formData.append('image', file);
     
         try {
-          const response = await axios.post('http://localhost:8080/editProfile', {file, name, bio, authorization: cookiess[1]} ,{
+          const response = await axios.post('http://localhost:8080/editProfile', {file, name, bio, authorization: Cookies.get('token')} ,{
             headers: {
               'Content-Type': 'multipart/form-data',
             },        
@@ -69,7 +70,7 @@ const page = () => {
           <TitleBar title='Edit Profile' />
           <div className="edit-profile-container">
             <div className="edit-profile-img" onClick={handleFormClick} style={{ backgroundImage: `url(${previewImage})`}}>
-              <input className='img-input' accept='image/*' type="file" name='file' onChange={handleImgChange} hidden/>
+              <input className='img-input' accept='image/*' type="file" name='file' ref={imgInputRef} onChange={handleImgChange} hidden/>
                 {
                     !previewImage &&
                     <RiAddLine

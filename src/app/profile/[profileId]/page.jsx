@@ -8,6 +8,7 @@ import ProfilePost from '../../components/ProfilePost'
 import '../../stylesheets/profile.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const ProfileOther = ({params}) => {
   const router = useRouter();
@@ -18,12 +19,12 @@ const ProfileOther = ({params}) => {
   const [posts, setPosts] = useState(0);
   const [isFollowing, setIsFollowing] = useState();
 
-  const cookiess = document.cookie.split('=');
+  // const cookiess = document.cookie.split('=');
   const handleProfile = async() => {
     try {
       console.log('ID: ' ,params.profileId)      
       const response = await axios.post(`http://localhost:8080/profile/${params.profileId}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response); // Display success message or handle accordingly
       await setUser(response.data.currUser)
@@ -44,7 +45,7 @@ const ProfileOther = ({params}) => {
   const handleFollow = async() => {
     try {
       const response = await axios.post(`http://localhost:8080/follow/${params.profileId}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response)
 
@@ -113,7 +114,7 @@ const ProfileOther = ({params}) => {
         <div className="profile-posts-area">        
           {user?.posts?.map((ele) => {
               const url = ele.image;
-              return <div onClick={handleOpenPost.bind('null', ele._id)}>
+              return <div className='post-div' onClick={handleOpenPost.bind('null', ele._id)}>
                 <ProfilePost src={url} />
               </div>
           })}

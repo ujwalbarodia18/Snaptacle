@@ -6,7 +6,9 @@ import '../../stylesheets/search.css'
 import axios from 'axios'
 // import { Router } from 'next/router'
 import { useRouter } from 'next/navigation'
-import { Redirect, Route, Routes, Router } from 'react-router-dom'
+import Cookies from 'js-cookie'
+
+// import { Redirect, Route, Routes, Router } from 'react-router-dom'
 
 
 const Search = () => {
@@ -14,11 +16,11 @@ const Search = () => {
   const [result, setResult] = useState([]);
   const [users, setUsers] = useState([]);
   // const searchBar = document.querySelector('.search-bar>input');
-  const cookiess = document.cookie.split('=');
+  // const cookiess = document.cookie.split('=');
   const handleSearch = async() => {
     try {
       const response = await axios.post('http://localhost:8080/search', {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response.data.users);
       setUsers(response.data.users);      
@@ -26,7 +28,7 @@ const Search = () => {
       // setResult(...users);
     } catch (error) {
       console.error('Registration failed', error);
-      router.push('../login')
+      router.push('/login')
     }
   }
 
@@ -50,11 +52,11 @@ const Search = () => {
   const [user, setUser] = useState([]);
   const [own, setOwn] = useState();
   const handleClick = async(id) => {
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     
     try {
       const response = await axios.post(`http://localhost:8080/profile/${id}`, {        
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
 
       console.log(response); // Display success message or handle accordingly

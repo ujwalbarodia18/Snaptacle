@@ -1,9 +1,17 @@
 img{    
-    width: 33%;
+    /* width: 33%; */
+    width: 135px;
     aspect-ratio: 1/1;
-    /* height: 135px;     */
+    height: 135px;    
     object-fit: cover;
     object-position: center;
     display: inline-block;
 }
+
+@media only screen and (max-width: 1024px) {
+    img {
+        width: 33vw;
+        height: 33vw;
+    }
+  }
 

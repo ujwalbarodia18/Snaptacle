@@ -8,14 +8,15 @@ import '../../stylesheets/post.css'
 // import '../../stylesheets/titlebar.css'
 import '../../stylesheets/soloPost.css'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const page = ({params}) => { 
     const [post, setPost] = useState();
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const handlePage = async() => {
         try{
             const response = await axios.post(`http://localhost:8080/post/${params.id}`, {
-                authorization: cookiess[1]
+                authorization: Cookies.get('token')
             });
             console.log('Post retreived: ', response);
             await setPost(response.data.post);

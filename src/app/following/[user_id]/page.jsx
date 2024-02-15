@@ -7,14 +7,15 @@ import TitleBar from '@/app/components/TitleBar';
 import Navbar from '@/app/components/NavBar';
 import '../../stylesheets/search.css'
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const page = ({params}) => {
     const [user, setUser] = useState(null);
     const router = useRouter();
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const handlePage = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getUser/${params.user_id}`, {authorization: cookiess[1]});
+            const response = await axios.post(`http://localhost:8080/getUser/${params.user_id}`, {authorization: Cookies.get('token')});
             console.log('Following:', response);
             await setUser(response.data.user.following);
         }
@@ -24,11 +25,11 @@ const page = ({params}) => {
     }
 
     const handleClick = async(id) => {
-        const cookiess = document.cookie.split('=');
+        // const cookiess = document.cookie.split('=');
         
         try {
           const response = await axios.post(`http://localhost:8080/profile/${id}`, {        
-            authorization: cookiess[1]
+            authorization: Cookies.get('token')
           });
     
           console.log(response); // Display success message or handle accordingly

@@ -5,6 +5,7 @@ import ProfileImg from '../components/ProfileImg';
 import axios from 'axios';
 import { RiHeartLine, RiChat3Line, RiHeartFill, RiBookmarkLine, RiBookmarkFill } from "@remixicon/react";
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie';
 
 // import './../../../public/'
 const Post = ({post}) => {
@@ -12,16 +13,16 @@ const Post = ({post}) => {
   const [saved, setSaved] = useState();
   const [totalLike, setTotalLike] = useState(0);
   const router = useRouter();
-  const cookiess = document.cookie.split('=');
+  // const cookiess = document.cookie.split('=');
   const handlePost = async() => {
     try {
       const response = await axios.post(`http://localhost:8080/getPost/${post._id}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       // console.log('Post-: ', response)
-      await setLike(response.data.liked);
+      setLike(response.data.liked);
       setSaved(response.data.saved)
-      await setTotalLike(response.data.post.likes.length);
+      setTotalLike(response.data.post.likes.length);
       // await 
     }
     catch(err) {
@@ -32,7 +33,7 @@ const Post = ({post}) => {
   const handleLike = async() => {
     try{
       const response = await axios.post(`http://localhost:8080/like/${post._id}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response);
       await setLike(response.data.liked);
@@ -51,10 +52,10 @@ const Post = ({post}) => {
   const handleSave = async() => {
     try {
       const response = await axios.post(`http://localhost:8080/save/${post._id}`, {
-        authorization: cookiess[1]
+        authorization: Cookies.get('token')
       });
       console.log(response);
-      await setSaved(response.data.saved);
+      setSaved(response.data.saved);
     }
     catch(err) {
       console.log(err)

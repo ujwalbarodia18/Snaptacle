@@ -7,6 +7,7 @@ import Navbar from '../components/NavBar'
 import SearchResult from '../components/SearchResult'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 const page = () => {
     const [chatUsers, setChatUsers] = useState();
@@ -14,9 +15,8 @@ const page = () => {
     const [currUser, setCurrUser] = useState();
     const chatPage = async() => {
         try {
-            const cookiess = document.cookie.split('=');
             const response = await axios.post('http://localhost:8080/getChatUser', {
-                authorization: cookiess[1]
+                authorization: Cookies.get('token')
             });
             console.log('Chat user: ', response);
             setChatUsers(response.data.chatUsers)

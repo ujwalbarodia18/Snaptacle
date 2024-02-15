@@ -6,6 +6,10 @@ const http = require('http');
 
 require('dotenv').config();
 const PORT = 8080;
+// app.use(express.json());
+// const _dirname = path.dirname("");
+// const buildpath = path.join(_dirname + "../build")
+// app.use(express.static(buildpath))
 app.use(cors());
 
 const expressSession = require('express-session');

@@ -6,16 +6,17 @@ import '../../stylesheets/searchTags.css'
 import ProfilePost from '@/app/components/ProfilePost'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const page = () => {
     const [posts, setPosts] = useState();
     const router = useRouter();
-    const cookiess = document.cookie.split('=');
+    // const cookiess = document.cookie.split('=');
     const getPost = async(e) => {
         try {
             const response = await axios.post('http://localhost:8080/search/tags', {
                 searchTag: e.target.value,
-                authorization: cookiess[1]
+                authorization: Cookies.get('token')
             })
             console.log(response);
             setPosts(response.data.posts);
