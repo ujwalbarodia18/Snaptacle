@@ -6,6 +6,7 @@ import '../stylesheets/addPost.css'
 import { RiAddLine } from "@remixicon/react";
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 
 const AddPost = () => {
@@ -16,6 +17,7 @@ const AddPost = () => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const [tagString, setTagString] = useState('');
+  const [loading, setLoading] = useState(false);
   
   const handleImgChange = async(e) => {
     const selectFile = e.target.files[0];
@@ -39,15 +41,15 @@ const AddPost = () => {
     imgInput.click();
   }
 
-  const handleUploadSubmit = async() => {
-    const cookiess = document.cookie.split('=');
+  const handleUploadSubmit = async() => {    
+    setLoading(true);
     const formData = new FormData();
     console.log('String: ', tagString)
     formData.append('image', file);
     const tags = tagString.split(' ');
     console.log('Tags: ', tags)
     try {
-      const response = await axios.post('http://localhost:8080/upload', {file, caption, tags, authorization: cookiess[1]} ,{
+      const response = await axios.post('http://localhost:8080/upload', {file, caption, tags, authorization: Cookies.get('token')} ,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },        
@@ -56,6 +58,7 @@ const AddPost = () => {
       console.log(response)
       if (response.data.message) {
         console.log('File uploaded successfully');
+        setLoading(false)
         router.push('/profile');
       } else {
         console.error('File upload failed');
@@ -89,6 +92,14 @@ const AddPost = () => {
         <NavBar selected={3}></NavBar>
       </div>
       </div>
+
+      {
+  loading && 
+  <div className="uploading">
+    <div><iframe src="https://giphy.com/embed/VseXvvxwowwCc"></iframe></div>
+        <p>Uploading...</p>
+  </div>
+}
     </div>
   );
 }

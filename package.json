@@ -17,12 +17,14 @@
     "react": "^18",
     "react-dom": "^18",
     "react-router-dom": "^6.22.0",
-    "socket.io-client": "^4.7.4"
+    "socket.io-client": "^4.7.4",
+    "tree": "^0.1.3"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "markdown-notes-tree": "^1.13.0",
     "typescript": "^5"
   }
 }

@@ -40,7 +40,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const fs = require("fs");
+// const { toEditorSettings } = require("typescript");
 app.use(cors());
+
 io.use((socket, next) => {
 	// Get the token from the query parameters
 	const token = socket.handshake.query.token;
@@ -123,10 +125,17 @@ router.get("/register", (req, res) => {
 });
 
 const authenticateMiddleware = (req, res, next) => {
-	const token = req.body.authorization;
+	const token = req.body.authorization ? req.body.authorization : req.headers.authorization;
+	
+	// console.log('token: ', token)
+	if (!token) {
+		return res.status(401).json({ message: "Unauthorized" });
+	  }
+	// const token = req.body.authorization;
 	// console.log(token)
 	// Verify the token
 	jwt.verify(token, "abcdefghijklmnopqrstuvwxyz", (err, decodedToken) => {
+		// console.log('In verify')
 		if (err) {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
@@ -136,6 +145,7 @@ const authenticateMiddleware = (req, res, next) => {
 		next();
 	});
 };
+
 
 router.post('/getUser', authenticateMiddleware, async(req, res) => {
     res.json({user: req.userId});
@@ -178,12 +188,12 @@ let OTP;
 // Express route for user login
 router.post("/login", async (req, res) => {
 	const { username, password } = req.body;
-
 	// Find the user in the database
 	const user = await userModel.findOne({ username });
-
+	console.log('User: ', user)
 	// Verify user credentials
 	if (!user || !(await bcrypt.compare(password, user.password))) {
+		
 		return res.status(401).json({ message: "Invalid credentials" });
 	}
 	
@@ -211,13 +221,17 @@ router.post('/verification', async(req, res) => {
 	}
 })
 
-router.post("/profile", authenticateMiddleware, async (req, res) => {
-	// console.log('Post Profile');
-	// console.log(req.userId);
-	const user = await userModel
+router.post("/profile", authenticateMiddleware, async (req, res) => {		
+	try {
+		const user = await userModel
 		.findOne({ _id: req.userId }, { password: 0 })
 		.populate("posts");
-	res.json({ user, own: true });
+		res.json({ user, own: true });	
+	}
+	catch(err) {
+		console.log('Err')
+		res.json({message: false})
+	}
 });
 
 router.post("/profile/:id", authenticateMiddleware, async (req, res) => {
@@ -418,10 +432,16 @@ router.post("/feed", authenticateMiddleware, async (req, res) => {
 });
 
 router.post("/post/:post_id", authenticateMiddleware, async (req, res) => {
-	const post = await postModel
+	try {
+		const post = await postModel
 		.findOne({ _id: req.params.post_id.toString() })
 		.populate("user");
-	res.json({ post });
+		res.json({ post });
+	}
+	catch(err) {
+		console.log('Error in getting post: ', err);
+		res.json({post: null})
+	}
 });
 
 router.post("/getPost/:post_id", authenticateMiddleware, async (req, res) => {
@@ -434,17 +454,17 @@ router.post("/getPost/:post_id", authenticateMiddleware, async (req, res) => {
 		if (post && post.likes.includes(user._id.toString())) {
 			liked = true;
 		}
-		if (user && user.saved.includes(post._id.toString())) {
+		if (user && user.saved.includes(post._id)) {
 			saved = true;
 		}
 		res.json({ liked, saved, post });
 	} catch (err) {
-		console.log("/Post: ", err);
+		res.json({message: false})
+		// console.log("/Post: ", err);
 	}
 });
 
-router.post(
-	"/getStories/:user_id",
+router.post("/getStories/:user_id",
 	authenticateMiddleware,
 	async (req, res) => {
 		try {
@@ -453,7 +473,7 @@ router.post(
 				.populate("stories");
 			res.json({ message: true, stories });
 		} catch (err) {
-			console.log("Error in getting stories: ", err);
+			// console.log("Error in getting stories: ", err);
 			res.json({ message: false });
 		}
 	}
@@ -462,8 +482,14 @@ router.post(
 router.post("/like/:post_id", authenticateMiddleware, async (req, res) => {
 	const user = await userModel.findOne({ _id: req.userId });
 	const post = await postModel.findOne({ _id: req.params.post_id });
-	if (post.likes.includes(user._id)) {
-		const idx = post.likes.indexOf(user._id);
+	let idx = -1;
+	post.likes.forEach((ele, index) => {
+		if(ele.toString() == user._id) {				
+			idx = index;
+		}
+	})
+	
+	if (idx != -1) {
 		post.likes.splice(idx, 1);
 		await post.save();
 		res.json({ liked: false });
@@ -478,13 +504,20 @@ router.post("/save/:post_id", authenticateMiddleware, async (req, res) => {
 	try {
 		const user = await userModel.findOne({ _id: req.userId });
 		const post = await postModel.findOne({ _id: req.params.post_id });
-		if (user.saved.includes(post._id)) {
-			const idx = user.saved.indexOf(post._id);
+		// console.log('User: ', user)
+		// console.log('Post: ', post)
+		let idx = -1;
+		user.saved.forEach((ele, index) => {
+			if(ele._id == post._id) {
+				idx = index;
+			}
+		})
+		if (idx != -1) {
 			user.saved.splice(idx, 1);
 			await user.save();
 			res.json({ saved: false });
 		} else {
-			user.saved.push({ _id: req.params.post_id });
+			user.saved.push({ _id: post._id });
 			await user.save();
 			res.json({ saved: true });
 		}
@@ -500,17 +533,24 @@ router.post("/getSavedPost", authenticateMiddleware, async (req, res) => {
 			.populate("saved");
 		res.json({ message: true, saved });
 	} catch (err) {
-		console.log("Error in 318: ", err);
+		// console.log("Error in 318: ", err);
 		res.json({ message: false });
 	}
 });
 
 router.post("/getUser/:user_id", authenticateMiddleware, async (req, res) => {
-	const user = await userModel
-		.findOne({ _id: req.params.user_id })
-		.populate("followers")
-		.populate("following");
-	res.json({ user });
+	try {
+		console.log('In get user')
+		const user = await userModel
+			.findOne({ _id: req.params.user_id })
+			.populate("followers")
+			.populate("following");
+		res.json({ user });
+	}
+	catch(err) {
+		res.json({message: false})
+	}
+	
 });
 
 router.post("/getChatUser", authenticateMiddleware, async (req, res) => {
@@ -606,8 +646,14 @@ router.post("/addPost", authenticateMiddleware, (req, res) => {
 
 router.post("/search", authenticateMiddleware, async (req, res) => {
 	// console.log('In search')
-	const users = await userModel.find({ _id: { $ne: req.userId } });
-	res.json({ users });
+	try {
+		const users = await userModel.find({ _id: { $ne: req.userId } });
+		res.json({ users });
+	}
+	catch(err) {
+		res.json({message: false})
+	}
+	
 });
 
 router.post("/search/tags", async (req, res) => {

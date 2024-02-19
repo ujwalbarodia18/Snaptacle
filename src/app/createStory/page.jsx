@@ -18,6 +18,7 @@ const page = () => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const [tagString, setTagString] = useState('');
+  const [loading, setLoading] = useState(false);
   
   const handleImgChange = async(e) => {
     const selectFile = e.target.files[0];
@@ -43,6 +44,7 @@ const page = () => {
 
   const handleUploadSubmit = async() => {
     // const cookiess = document.cookie.split('=');
+    setLoading(true);
     const formData = new FormData();
     formData.append('image', file);
     try {
@@ -55,7 +57,9 @@ const page = () => {
       console.log(response)
       if (response.data.message) {
         console.log('File uploaded successfully');
+        
         router.push('/feed');
+        setLoading(false);
       } else {
         console.error('File upload failed');
       }
@@ -66,7 +70,7 @@ const page = () => {
 
   return (
     <div className="main">
-      <div className="container">
+      <div className={loading ? 'container-blur' : 'container'}>
         <div className="add-post">
             <TitleBar title='Add Story'></TitleBar>
             <div className="add-post-area add-story-area">          
@@ -88,6 +92,15 @@ const page = () => {
             <NavBar selected={3}></NavBar>
         </div>
       </div>
+
+{
+  loading && 
+  <div className="uploading">
+    <div><iframe src="https://giphy.com/embed/VseXvvxwowwCc"></iframe></div>
+        <p>Uploading...</p>
+  </div>
+}
+      
     </div>
   )
 }

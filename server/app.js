@@ -32,35 +32,11 @@ app.use(expressSession({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 app.use(fileUpload())
-// passport.serializeUser(usersRouter.serializeUser());
-// passport.deserializeUser(usersRouter.deserializeUser());
+
+
 
 app.use('/', indexRouter);
-
-// io.on('connection', (socket) => {
-//     console.log('Socket: ', socket);
-  
-//     // Listen for new messages
-//     socket.on('newMessage', async ({req}) => {
-//         // authenticateMiddleware(req,)
-//       const { user, text } = data;
-  
-//       // Save the message to MongoDB
-//       const newMessage = new Message({ user, text });
-//       await newMessage.save();
-  
-//       // Broadcast the new message to all connected clients
-//       io.emit('newMessage', newMessage);
-//     });
-  
-//     // Disconnect event
-//     socket.on('disconnect', () => {
-//       console.log('User disconnected');
-//     });
-// });
 
 app.listen(PORT, () => {
     console.log(`Server started at ${PORT}`);
