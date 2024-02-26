@@ -17,11 +17,12 @@ const expect = chai.expect;
 
 const mockUser = {
   username: 'user',
+  name: 'mockName',
   email: 'user@gmail.com',
   password: 'password'
 };
 
-describe('POST /login', () => {
+describe('POST /registerTemp', () => {
   let bcryptCompareStub;
   beforeEach(() => {
     // Mock bcrypt.compare before each test
@@ -37,36 +38,26 @@ describe('POST /login', () => {
   //   // Restore bcrypt.compare after each test
   //   bcrypt.compare.restore();
   // });
-  it('should login a user and return a token', (done) => {
-
-    const userModelMock = {
-        findOne: () => Promise.resolve(mockUser)
-    }
-
-    // Override the userModel with the mock
-    Object.assign(userModel, userModelMock);
-
-
-    bcrypt.compare.returns(true);
-    sinon.stub
+  it('should register a new user and return a token', async() => {
+    const saveStub = sinon.stub(userModel.prototype, 'save');
+    saveStub.resolves(mockUser);
     
-    chai.request(app)
-      .post('/login', {
-
-      })
+    try {
+        const response = await chai.request(app)
+      .post('/register')
       .send({
-        username: 'invalidUser',
-        password: 'invalidPassword',
-      })
-      .end((err, response) => {
-        // console.log('Res: ', response.body)
-        // console.log('Post after save: ', mockUser)
-        // console.log('Res: ', response.body)
-        expect(response).to.have.status(200);
-        expect(response.body).to.have.property('token');
-        expect(response.body).to.have.property('username', mockUser.username);
-        done();
-      });            
+        username: mockUser.username,
+        name: mockUser.name,
+        email: mockUser.email,
+        password: mockUser.password,
+      });
+      expect(response).to.have.status(201);
+      expect(response.body).to.have.property('token');
+    }
+    catch(err) {
+        console.log('Err: ', err)
+    }
+      
   });
 
   // bcryptCompareStub.restore();

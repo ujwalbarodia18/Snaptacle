@@ -14,7 +14,7 @@ const sendMail = (userEmailId) => {
     const OTP = Math.floor(1000 + Math.random() * 9000);
     console.log('OTP: ', OTP);
     const mailOptions = {
-        from: 'ujwal.b@darwinbox.io',
+        from: 'ujwalbarodia@gmail.com',
         to: userEmailId,
         subject: 'OTP for login',
         text: `Your OTP for login is ${OTP}`,

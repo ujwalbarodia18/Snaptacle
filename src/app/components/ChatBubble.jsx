@@ -1,5 +1,6 @@
-import React from 'react'
-import '../stylesheets/chatBubble.css'
+import React from 'react';
+// import '../stylesheets/chatBubble.css';
+
 const ChatBubble = ({owner, message}) => {
   return (
     <div className={`main-chat-bubble + ${owner ? 'owner' : ''}`}>

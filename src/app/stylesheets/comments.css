@@ -1,6 +1,6 @@
 .comments-main {
     width: 100%;
-    height: 70%;
+    height: 100%;
     margin: 0;  
     padding: 0;
     box-sizing: border-box;
@@ -8,7 +8,6 @@
     justify-content: center;
     background-color: #000;
     color: #fff;
-    border-radius: 30px;    
   }
 
   .title-bar {
@@ -32,7 +31,7 @@
   
   .comments-area {
     width: 100%;
-    height: 54vh;
+    height: 76vh;
     gap: 12px;
     overflow-y: scroll;
   }

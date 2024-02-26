@@ -29,7 +29,7 @@ const page = ({params}) => {
 
     const getComments = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getComments/${params.post_id}`, {authorization: cookiess[1]});
+            const response = await axios.post(`http://localhost:8080/getComments/${params.post_id}`, {authorization: Cookies.get('token')});
             console.log(response);
             setAllComments(response.data.comments);
             setLoading(false)
@@ -47,7 +47,7 @@ const page = ({params}) => {
         console.log('COMENTS: ', allComments)
     }, [allComments])
   return (
-    <main className='comments-main'>
+    <body className='comments-main'>
       <div className='comments-container'>        
         <div className="comments-container">
         <TitleBar title='Comments' />
@@ -67,7 +67,7 @@ const page = ({params}) => {
         </div>        
       </div>
       
-    </main>
+    </body>
   )
 }
 

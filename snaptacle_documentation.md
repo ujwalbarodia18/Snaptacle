@@ -9,9 +9,7 @@
 6. [Dependencies](#dependencies)
 7. [Running the App](#running-the-app)
 8. [Features](#features)
-9. [API Endpoints](#api-endpoints)
-10. [Contributing](#contributing)
-11. [License](#license)
+9. [Contributing](#contributing)
 
 
 ## Introduction

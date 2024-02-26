@@ -33,6 +33,8 @@ const Feed = () => {
       setPosts(res.data.posts);
       setUser(res.data.user);
       setUsersWithStories(res.data.userWithStories);
+      console.log('Agg: ', res.data.agg);
+      console.log('Post: ', res.data.posts)
     }
     catch(err) {
       console.log(err)
@@ -62,12 +64,7 @@ const Feed = () => {
       router.push('/createStory');
   }
 
-  // useEffect(() => {    
-  //   // usersWithStories?.map((ele) => console.log('Stories: ', ele))
-  // }, [usersWithStories])
-
   useEffect(() => {
-    // console.log('In use')
     postFeed();
   }, [])
 

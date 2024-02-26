@@ -1,3 +1,6 @@
 node_modules
 .next
-/server/.env
+*.env
+./tests
+./server/.nyc_output
+./server/node_modules

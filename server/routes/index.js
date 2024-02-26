@@ -2,27 +2,18 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 require("dotenv").config();
-const { v4: uuidv4 } = require("uuid");
-const path = require("path");
-const mongoose = require("mongoose");
 const http = require("http");
 const cors = require("cors");
 const uploadFile = require('../upload.js')
 const sendMail = require('../sendMail.js')
+const AWS = require('aws-sdk');
 
-const AWS = require('aws-sdk')
-// const credentials = {
-// 	accessKey: process.env.AWS_ACCESS_KEY_ID,
-// 	secretKey: process.env.AWS_SECRET_ACCESS_KEY,
-// 	bucketName: process.env.S3_BUCKET
-// }
 
 const s3 = new AWS.S3({
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+
 
 const userModel = require("../models/user");
 const postModel = require("../models/post.js");
@@ -40,7 +31,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const fs = require("fs");
-// const { toEditorSettings } = require("typescript");
 app.use(cors());
 
 io.use((socket, next) => {
@@ -126,42 +116,29 @@ router.get("/register", (req, res) => {
 
 const authenticateMiddleware = (req, res, next) => {
 	const token = req.body.authorization ? req.body.authorization : req.headers.authorization;
-	
-	// console.log('token: ', token)
+
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized" });
-	  }
-	// const token = req.body.authorization;
-	// console.log(token)
+	}
 	// Verify the token
 	jwt.verify(token, "abcdefghijklmnopqrstuvwxyz", (err, decodedToken) => {
-		// console.log('In verify')
 		if (err) {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
 
 		req.userId = decodedToken.userId;
-
 		next();
 	});
 };
-
 
 router.post('/getUser', authenticateMiddleware, async(req, res) => {
     res.json({user: req.userId});
 })
 
-router.get("/protected-route", authenticateMiddleware, (req, res) => {
-	res.json({ message: "This is a protected route" });
-});
-
 router.post("/register", async (req, res) => {
 	const { username, name, email, password } = req.body;
 
-	// Validate input data (e.g., check if email is unique)
-	// Hash the password using bcrypt
 	const hashedPassword = await bcrypt.hash(password, 10);
-
 	// Save user details to MongoDB
 	const newUser = new userModel({
 		username,
@@ -176,47 +153,47 @@ router.post("/register", async (req, res) => {
 	const token = jwt.sign({ userId: user._id }, "abcdefghijklmnopqrstuvwxyz", {
 		expiresIn: "1h",
 	});
-	// res.cookie('token', token, { httpOnly: true });
-	// Return the JWT to the client
 
-	// res.json({ token, userId: user._id, username: user.username });
-	// Return a response to the client
 	res.status(201).json({ message: true, token });
 });
 
 let OTP;
 // Express route for user login
 router.post("/login", async (req, res) => {
-	const { username, password } = req.body;
-	// Find the user in the database
-	const user = await userModel.findOne({ username });
-	console.log('User: ', user)
-	// Verify user credentials
-	if (!user || !(await bcrypt.compare(password, user.password))) {
+	try {
+		const { username, password } = req.body;
+		// Find the user in the database
+		const user = await userModel.findOne({ username });
+		console.log('User: ', user)
+		// Verify user credentials
+		if (!user || !(await bcrypt.compare(password, user.password))) {
+			return res.status(401).json({ message: "Invalid credentials" });
+		}
 		
-		return res.status(401).json({ message: "Invalid credentials" });
+		// Generate a JWT
+		const token = jwt.sign({ userId: user._id }, "abcdefghijklmnopqrstuvwxyz", {
+			expiresIn: "1h",
+		});
+
+		res.cookie("token", token, { httpOnly: true });
+		OTP = sendMail(user.email);
+		// Return the JWT to the client
+		res.json({ token, userId: user._id, username: user.username, email: user.email});
 	}
-	
-	// Generate a JWT
-	const token = jwt.sign({ userId: user._id }, "abcdefghijklmnopqrstuvwxyz", {
-		expiresIn: "1h",
-	});
-
-	res.cookie("token", token, { httpOnly: true });
-	OTP = sendMail(user.email);
-	// Return the JWT to the client
-	res.json({ token, userId: user._id, username: user.username, email: user.email});
+	catch(err) {
+		res.json({message: false})
+	}
 });
-
 
 router.post('/verification', async(req, res) => {
 	const otp = req.body.OTP;	
 	console.log('otp: ', otp, ' OTP: ', OTP)
 	if(otp == OTP) {
-		
+		OTP = null;
 		res.send({message: true});
 	}
 	else {
+		OTP = null;
 		res.send({message: false});
 	}
 })
@@ -236,11 +213,11 @@ router.post("/profile", authenticateMiddleware, async (req, res) => {
 
 router.post("/profile/:id", authenticateMiddleware, async (req, res) => {
 	// console.log('Enterd id')
-	// console.log(req.params.id);
+	// console.log(req.params.id);	
 	const currUser = await userModel
 		.findOne({ _id: req.params.id }, { password: 0 })
 		.populate("posts");
-
+	console.log('currUser: ', currUser)
 	if (currUser.followers.includes(req.userId)) {
 		console.log("Yes following");
 		res.json({ currUser, own: false, isFollowing: true });
@@ -341,19 +318,15 @@ router.post("/editProfile", authenticateMiddleware, async (req, res) => {
 		console.log("Image: ", req.files);
 		if (req.files && req.files.file) {
 			const location = await uploadFile(req.files.file);
-			
 			user.profileImg = location;
 		}
-
 		const { name, bio } = req.body;
 		if (name) {
 			user.name = name;
 		}
-
 		if (bio) {
 			user.bio = bio;
 		}
-
 		await user.save();
 		res.json({ message: true });
 	} catch (err) {
@@ -504,8 +477,7 @@ router.post("/save/:post_id", authenticateMiddleware, async (req, res) => {
 	try {
 		const user = await userModel.findOne({ _id: req.userId });
 		const post = await postModel.findOne({ _id: req.params.post_id });
-		// console.log('User: ', user)
-		// console.log('Post: ', post)
+
 		let idx = -1;
 		user.saved.forEach((ele, index) => {
 			if(ele._id == post._id) {
@@ -566,74 +538,14 @@ router.post("/getChatUser", authenticateMiddleware, async (req, res) => {
 	}
 });
 
-// router.post(`/postChat/:userId`, authenticateMiddleware, async (req, res) => {
-// 	io.on("connection", (socket) => {
-//         // socket.on("join-chat", (e) => {
-//             // console.log(e);
-//             // let roomID = e;
-//             const roomID = "65cb4d11c1adf88f2e3258d065cb4d3ac1adf88f2e3258df"
-//             // Listen for new messages
-//             socket.on(roomID, async (data) => {
-//                   console.log('Id: ', data);
-    
-//                 // Save the message to MongoDB
-//                 try {
-//                     const id =
-//                         socket.user.userId < data.id
-//                             ? socket.user.userId + data.id
-//                             : data.id + socket.user.userId;
-//                     const chat = await chatModel.findOne({ _id: id });
-//                     if (chat) {
-//                         chat.chats.push({
-//                             user: socket.user.userId,
-//                             message: data.message,
-//                         });
-//                         await chat.save();
-//                     } else {
-//                         const newChat = new chatModel({
-//                             _id: roomID,
-//                             chats: [
-//                                 {
-//                                     user: socket.user.userId,
-//                                     message: data.message,
-//                                 },
-//                             ],
-//                         });
-    
-//                         await newChat.save();
-//                     }
-//                     socket.broadcast.emit(roomID, data.message);
-//                 } catch (err) {
-//                     console.log("Error sending message: ", err);
-//                 }
-    
-//                 // Broadcast the new message to all connected clients
-//             });
-    
-//             // Disconnect event
-//             socket.on("disconnect", () => {
-//                 console.log("User disconnected");
-//             });
-//         // });
-//     });
-
-// });
-
 router.post(`/getChat/:userId`, authenticateMiddleware, async (req, res) => {
-	// const id =
-	// 	req.userId.toString() < req.params.userId.toString()
-	// 		? req.userId.toString() + req.params.userId.toString()
-	// 		: req.params.userId.toString() + req.userId.toString();
 	const id = req.params.userId;
-	// const currUserId = await userModel.findOne()
 			
 	const chat =
 		(await chatModel.findOne({
 			_id: id
 		})) 
-		// const {username} = await userModel.findOne({ _id: req.params.userId }, { _id: 0, username: 1});
-	if (chat) {
-		
+	if (chat) {		
 		res.json({ message: true, chat});
 	} else {
 		res.json({ message: false });

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { RiHeartLine, RiChat3Line, RiHeartFill, RiBookmarkLine, RiBookmarkFill } from "@remixicon/react";
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie';
+// import likeGif from '../Like.gif'
 
 // import './../../../public/'
 const Post = ({post}) => {
@@ -79,7 +80,7 @@ const Post = ({post}) => {
         <ProfileImg src={post.user.profileImg} profile={false}/> 
         <p onClick={openProfile.bind(`null`, post.user._id)}>{post.user.username}</p>
       </div>
-      <div className="post-img">
+      <div className="post-img" onDoubleClick={handleLike}>
         <img src={post.image} alt=""/>
       </div>
       <div className="interactions">
