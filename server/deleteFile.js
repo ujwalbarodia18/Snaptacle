@@ -13,9 +13,11 @@ const s3 = new AWS.S3({
 });
 
 const deleteFile = async (fileName) => {
+    console.log('Credentials: ', credentials)
+    console.log('S3: ', s3)
     const params = {
         Bucket: credentials.bucketName,
-        Key: fileName
+        Key: '473508be-38da-44c5-af42-83c45717f654pexels-biola-visuals-19376536.jpg'
     };
 
     return new Promise((resolve, reject) => {

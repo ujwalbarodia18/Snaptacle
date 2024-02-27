@@ -13,8 +13,9 @@ const s3 = new AWS.S3({
     secretAccessKey: credentials.secretKey
 });
 
-const uploadFile = async(file) => {
+const uploadFile = async(file) => {    
     console.log('In upload')
+    console.log('S3: ', s3)
     const params = {
         Bucket: credentials.bucketName,
         Key: uuidv4() + file.name,

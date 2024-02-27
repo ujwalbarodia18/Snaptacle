@@ -295,17 +295,17 @@ router.post("/createStory", authenticateMiddleware, async (req, res) => {
 		user.stories.splice(idx, 1);
 		await storyModel.deleteOne({ _id: newStory._id });
 		await user.save();
-
-		// try {
-		// 	const deleteResponse = await deleteFile(key);
-		// 	console.log('Delete Response: ', deleteResponse);
-		// }
-		// catch(err) {
-		// 	console.log('Error deleting: ', err);
-		// }
+		console.log('Key:- ', key)
+		try {
+			const deleteResponse = await deleteFile(key);
+			console.log('Delete Response: ', deleteResponse);
+		}
+		catch(err) {
+			console.log('Error deleting: ', err);
+		}
 		
 
-	}, 60000);
+	}, 5000);
 
 	res.json({ message: true });
 });
@@ -583,7 +583,7 @@ router.post("/search/tags", async (req, res) => {
 	}
 });
 
-io.listen(5000, () => {
+io.listen(process.env.SOCKET_PORT, () => {
 	console.log("Socket server started at 5000");
 });
 
