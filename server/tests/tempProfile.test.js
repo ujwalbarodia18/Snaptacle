@@ -45,6 +45,33 @@ describe('/profile/id route', () => {
       });
   });
 
+  it('should return user information', (done) => {
+    const userModelMock = {
+      findOne: () => ({
+        populate: () => Promise.resolve(mockUser),
+      }),
+    };
+
+    // Override the userModel with the mock
+    Object.assign(userModel, userModelMock);
+    jwt.verify = (token, secret, callback) => {
+        // Replace with a valid decoded token
+        const decodedToken = { userId: 'authenticatedUser' };
+        callback(null, decodedToken);
+    };
+
+    chai.request(app)
+      .post('/profile')
+      .set('Authorization', 'mockedToken')
+      .end((err, res) => {
+        console.log('Res profile: ', res.body)
+        expect(res.status).to.equal(200);
+        expect(res.body).to.have.property('user');
+        expect(res.body.user).to.deep.equal(mockUser);        
+        done();
+      });
+  });
+
   
   
 });

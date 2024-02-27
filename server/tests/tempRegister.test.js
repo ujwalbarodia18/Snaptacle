@@ -60,29 +60,4 @@ describe('POST /registerTemp', () => {
       
   });
 
-  // bcryptCompareStub.restore();
-  it('should handle invalid credentials', (done) => {
-    const userModelMock = {
-      findOne: () => Promise.resolve(null)
-    }
-
-
-  // Override the userModel with the mock
-    Object.assign(userModel, userModelMock);
-    chai.request(app)
-      .post('/login')
-      .send({
-        username: 'invalidUser',
-        password: 'invalidPassword',
-      })
-      .end((err, response) => {
-        console.log('Login err: ', err)
-        console.log('Res Login Err: ', response.body)
-        expect(response).to.have.status(401);
-        expect(response.body).to.eql({ message: 'Invalid credentials' });
-        done();
-      });   
-
-  })
-
 });

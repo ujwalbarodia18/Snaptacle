@@ -107,7 +107,7 @@ const Profile = () => {
         
         <div className="profile-posts-area">
           {user?.posts?.map((ele) => {
-            return <div  onClick={handleOpenPost.bind('null', ele._id)}>
+            return <div onClick={handleOpenPost.bind('null', ele._id)}>
               <ProfilePost src={ele.image} />
             </div>
           })}

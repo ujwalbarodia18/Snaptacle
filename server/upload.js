@@ -1,5 +1,6 @@
 require("dotenv").config();
 const AWS = require('aws-sdk');
+const {v4: uuidv4} = require('uuid')
 
 const credentials = {
     accessKey: process.env.AWS_ACCESS_KEY_ID,
@@ -16,7 +17,7 @@ const uploadFile = async(file) => {
     console.log('In upload')
     const params = {
         Bucket: credentials.bucketName,
-        Key: file.name,
+        Key: uuidv4() + file.name,
         Body: file.data
     };
     
@@ -25,13 +26,14 @@ const uploadFile = async(file) => {
             if(err) {
                 console.log('In Err')
                 // throw err
-                reject('Eroor uploading')
+                reject('Error uploading')
                 console.log('Error: ', err)
             }
             
             else {
+                console.log('Data: ', data)
                 console.log('Data Location: ', data.Location)
-                resolve(data.Location)
+                resolve({location: data.Location, key: data.Key})
             }        
         })
     }) 

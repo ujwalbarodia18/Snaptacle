@@ -7,14 +7,13 @@
     display: flex;
     justify-content: center;
     background-color: #171717;
-    color: #fff;
+    color: #fff;    
   }
   
   .saved-container {
     width: 412px;
     height: 100%;
-    background-color: #000;
-    
+    background-color: #000;    
   }
 
   @media only screen and (max-width: 1024px) {
@@ -22,16 +21,22 @@
       width: 100%;
     }
   }
-  
-  .saved-post-area {
-    width: 100%;
+
+  .main-area {
     height: 84vh;
     overflow-y: scroll;
+  }
+
+  .main-area::-webkit-scrollbar {
+    display: none;
+  }
+
+  .saved-post-area {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 2px;
-    justify-content: flex-start;
-    gap: 1px;
+    justify-content: flex-start;    
   }
   
   .saved-post-area::-webkit-scrollbar {

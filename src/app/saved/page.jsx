@@ -37,6 +37,7 @@ const page = () => {
     <main className='saved-main'>
       <div className='saved-container'>
         <TitleBar title='Saved' />
+        <div className='main-area'>
         <div className="saved-post-area">
             {
                 savedPosts?.map((post) => {
@@ -45,6 +46,7 @@ const page = () => {
                         </div>
                 })
             }
+        </div>
         </div>
         <Navbar selected={5}/>
       </div>

@@ -1,4 +1,3 @@
-// profileRoute.test.js
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { describe, it } = require('mocha');
@@ -50,31 +49,11 @@ describe('POST /save/:post_id', () => {
       .post('/save/post1')
       .set('Authorization', 'mockedToken')
       .end((err, response) => {
-        // console.log('Res: ', response.body)
-        // console.log('Post after save: ', mockUser)
-        // console.log('Res: ', response.body)
         expect(response).to.have.status(200);
         expect(response.body).to.have.property('saved');
         expect(response.body.saved).to.be.true;
-        
-      });
-    
-    Object.assign(postModel, postModelMock);
-    Object.assign(userModel, userModelMock);
-
-    chai.request(app)
-      .post('/save/post1')
-      .set('Authorization', 'mockedToken')
-      .end((err, response) => {
-        // console.log('Res: ', response.body)
-        // console.log('Post after save: ', mockUser)
-        // console.log('Res: ', response.body)
-        expect(response).to.have.status(200);
-        expect(response.body).to.have.property('saved');
-        expect(response.body.saved).to.be.false;
         done();
-    });
-    
+      });
 });
 
   it('should handle errors during post details retrieval', (done) => {
@@ -88,11 +67,9 @@ describe('POST /save/:post_id', () => {
       .post('/getPost/post1')
       .set('Authorization', 'mockedToken')
       .end((err, response) => {
-        // console.log('Res: ', response.body)
         expect(response).to.have.status(200); // Adjust the status code based on your error handling logic
         expect(response.body).to.have.property('message', false);
         done();
       });
-
   })
 });

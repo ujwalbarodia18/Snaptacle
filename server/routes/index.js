@@ -5,6 +5,7 @@ require("dotenv").config();
 const http = require("http");
 const cors = require("cors");
 const uploadFile = require('../upload.js')
+const deleteFile = require('../deleteFile.js')
 const sendMail = require('../sendMail.js')
 const AWS = require('aws-sdk');
 
@@ -212,8 +213,6 @@ router.post("/profile", authenticateMiddleware, async (req, res) => {
 });
 
 router.post("/profile/:id", authenticateMiddleware, async (req, res) => {
-	// console.log('Enterd id')
-	// console.log(req.params.id);	
 	const currUser = await userModel
 		.findOne({ _id: req.params.id }, { password: 0 })
 		.populate("posts");
@@ -259,7 +258,7 @@ router.post("/follow/:id", authenticateMiddleware, async (req, res) => {
 });
 
 router.post("/upload", authenticateMiddleware, async (req, res) => {
-	const location = await uploadFile(req.files.file);
+	const {location} = await uploadFile(req.files.file);
 
 	console.log('Location: ', location)	
 	const user = await userModel.findOne({ _id: req.userId });
@@ -277,7 +276,7 @@ router.post("/upload", authenticateMiddleware, async (req, res) => {
 });
 
 router.post("/createStory", authenticateMiddleware, async (req, res) => {
-	const location = await uploadFile(req.files.file);
+	const {location, key} = await uploadFile(req.files.file);
 
 	const user = await userModel.findOne({ _id: req.userId });
 
@@ -291,22 +290,21 @@ router.post("/createStory", authenticateMiddleware, async (req, res) => {
 	await user.save();
 
 	setTimeout(async () => {
+		console.log('In setTImeout')
 		const idx = user.stories.indexOf(newStory);
 		user.stories.splice(idx, 1);
 		await storyModel.deleteOne({ _id: newStory._id });
 		await user.save();
 
-		const params = {
-			Bucket: process.env.S3_BUCKET,
-			Key: req.files.file.name
-		};
+		// try {
+		// 	const deleteResponse = await deleteFile(key);
+		// 	console.log('Delete Response: ', deleteResponse);
+		// }
+		// catch(err) {
+		// 	console.log('Error deleting: ', err);
+		// }
+		
 
-		s3.deleteObject(params, (err, data) => {
-			if(err) {
-				console.log('Error in deleting: ', err);
-			}
-		});
-		// console.log("Done");
 	}, 60000);
 
 	res.json({ message: true });
@@ -317,7 +315,7 @@ router.post("/editProfile", authenticateMiddleware, async (req, res) => {
 		const user = await userModel.findOne({ _id: req.userId });
 		console.log("Image: ", req.files);
 		if (req.files && req.files.file) {
-			const location = await uploadFile(req.files.file);
+			const {location} = await uploadFile(req.files.file);
 			user.profileImg = location;
 		}
 		const { name, bio } = req.body;
@@ -480,7 +478,9 @@ router.post("/save/:post_id", authenticateMiddleware, async (req, res) => {
 
 		let idx = -1;
 		user.saved.forEach((ele, index) => {
-			if(ele._id == post._id) {
+			console.log('Ele: ', ele)
+			console.log('Post: ', post._id)
+			if(ele.toString() == post._id.toString()) {
 				idx = index;
 			}
 		})
