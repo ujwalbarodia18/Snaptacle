@@ -4,3 +4,4 @@ node_modules
 ./tests
 ./server/.nyc_output
 ./server/node_modules
+./server/*.env
