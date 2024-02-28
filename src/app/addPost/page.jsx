@@ -4,9 +4,10 @@ import TitleBar from '../components/TitleBar'
 import NavBar from '../components/NavBar'
 import '../stylesheets/addPost.css'
 import { RiAddLine } from "@remixicon/react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 
 const AddPost = () => {
@@ -49,7 +50,7 @@ const AddPost = () => {
     const tags = tagString.split(' ');
     console.log('Tags: ', tags)
     try {
-      const response = await axios.post('http://localhost:8080/upload', {file, caption, tags, authorization: Cookies.get('token')} ,{
+      const response = await axios.post(`${apiurl}/upload`, {file, caption, tags, authorization: Cookies.get('token')} ,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },        

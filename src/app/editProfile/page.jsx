@@ -8,6 +8,7 @@ import { RiAddLine } from "@remixicon/react";
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie';
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const page = () => {
     const router = useRouter();
@@ -46,7 +47,7 @@ const page = () => {
         formData.append('image', file);
     
         try {
-          const response = await axios.post('http://localhost:8080/editProfile', {file, name, bio, authorization: Cookies.get('token')} ,{
+          const response = await axios.post(`${apiurl}/editProfile`, {file, name, bio, authorization: Cookies.get('token')} ,{
             headers: {
               'Content-Type': 'multipart/form-data',
             },        

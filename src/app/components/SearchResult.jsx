@@ -3,7 +3,7 @@ import '../stylesheets/searchResult.css'
 
 const SearchResult = ({user}) => {
   return (
-    <div className='main-search-result'>
+    <div className='main-search-result' data-testid="search-result">
         <img src={user.profileImg} alt="" />
 
         <div className="search-result-info">

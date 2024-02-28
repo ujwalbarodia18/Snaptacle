@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import Story from '../../components/Story'
 import Cookies from "js-cookie";
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const page = ({params}) => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const page = ({params}) => {
   const [size, setSize] = useState();
   const getStories = async() => {
     try {
-      const response = await axios.post(`http://localhost:8080/getStories/${params.userid}`, {
+      const response = await axios.post(`${apiurl}/getStories/${params.userid}`, {
         authorization: Cookies.get('token')
       });
       console.log('Get Story:', response.data.stories)

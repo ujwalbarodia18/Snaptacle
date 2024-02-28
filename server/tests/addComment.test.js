@@ -2,8 +2,8 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { describe, it } = require('mocha');
 const app = require('../app'); // Replace with the actual path
-const postModel = require('../models/post'); // Assuming you have the userModel file
-const userModel = require('../models/user'); // Assuming you have the userModel file
+const postModel = require('../models/post.model'); // Assuming you have the userModel file
+const userModel = require('../models/user.model'); // Assuming you have the userModel file
 const jwt = require('jsonwebtoken');
 const sinon = require('sinon');
 chai.use(chaiHttp);
@@ -59,7 +59,8 @@ describe('POST /addComment/:post_id', () => {
       .send({ comment: 'This is mockComment' })
       .end((err, response) => {
         console.log('Res comment: ', response.body);
-        // expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+        expect(response.body.message).to.be.true;
         done();
       });
 

@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import TitleBar from './TitleBar'
 import Comment from './Comment'
-import Navbar from './NavBar'
 import '../stylesheets/comments.css'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
+import { RiCloseFill } from "@remixicon/react";
 
-const CommentSection = ({params}) => {
+const CommentSection = ({post_id, setPostId}) => {
     const [comment, setComment] = useState('');
     // const cookiess = document.cookie.split('=');
     const [allComments, setAllComments] = useState([]);
@@ -15,7 +15,7 @@ const CommentSection = ({params}) => {
     
     const handleComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/addComment/${params.post_id}`, {comment, authorization: Cookies.get('token')});            
+            const response = await axios.post(`${apiurl}/addComment/${post_id}`, {comment, authorization: Cookies.get('token')});            
             setComment('')
             console.log(response);
             getComments();
@@ -31,7 +31,7 @@ const CommentSection = ({params}) => {
 
     const getComments = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getComments/${params.post_id}`, {authorization: Cookies.get('token')});
+            const response = await axios.post(`${apiurl}/getComments/${post_id}`, {authorization: Cookies.get('token')});
             console.log(response);
             setAllComments(response.data.comments);
             setLoading(false)
@@ -39,7 +39,11 @@ const CommentSection = ({params}) => {
         catch (err) {
             console.log('Error in getting comments: ', err);
         }
-    }
+      }
+    
+      const closeComment = () => {
+        setPostId(null);
+      }
 
     useEffect(() => {
         getComments();
@@ -52,7 +56,13 @@ const CommentSection = ({params}) => {
   return (
     <div className='comments-main'>
       <div className='comments-container'>        
-        <div className="comments-container">
+        <div onClick={closeComment} className='close-icon'>
+                    <RiCloseFill
+                        size={30} 
+                        color="white" 
+                        className="my-icon" 
+                    /> 
+                </div>
             <div className="title-bar">
                 <div>Comments</div>
             </div>
@@ -71,7 +81,6 @@ const CommentSection = ({params}) => {
         </div>        
       </div>
       
-    </div>
   )
 }
 

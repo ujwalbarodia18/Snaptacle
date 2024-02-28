@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import '../stylesheets/comment.css'
 
 const Comment = ({comment}) => {

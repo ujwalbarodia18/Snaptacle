@@ -8,14 +8,14 @@ import Navbar from '@/app/components/NavBar';
 import '../../stylesheets/search.css'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie';
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 const page = ({params}) => {
     const router = useRouter();
     const [user, setUser] = useState(null)
     // const cookiess = document.cookie.split('=');
     const handlePage = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getUser/${params.user_id}`, {authorization: Cookies.get('token')});
+            const response = await axios.post(`${apiurl}/getUser/${params.user_id}`, {authorization: Cookies.get('token')});
             // console.log(response);
             await setUser(response.data.user.followers);
         }
@@ -27,7 +27,7 @@ const page = ({params}) => {
         // const cookiess = document.cookie.split('=');
         
         try {
-          const response = await axios.post(`http://localhost:8080/profile/${id}`, {        
+          const response = await axios.post(`${apiurl}/profile/${id}`, {        
             authorization: Cookies.get('token')
           });
     

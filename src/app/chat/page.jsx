@@ -6,16 +6,16 @@ import Navbar from '../components/NavBar'
 // import UserChat from '../components/UserChat'
 import SearchResult from '../components/SearchResult'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 const page = () => {
     const [chatUsers, setChatUsers] = useState();
     const router = useRouter();
     const [currUser, setCurrUser] = useState();
     const chatPage = async() => {
         try {
-            const response = await axios.post('http://localhost:8080/getChatUser', {
+            const response = await axios.post(`${apiurl}/getChatUser`, {
                 authorization: Cookies.get('token')
             });
             console.log('Chat user: ', response);

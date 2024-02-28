@@ -1,0 +1,151 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/navbar.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.navbar {    
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 8vh;
+    align-items: center;
+    padding: 7px 5%;
+    border-top: 1px solid #222;    
+}
+
+.nav-icon {
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/searchResult.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+
+.main-search-result {
+    width: 100%;
+    height: calc(84vh/8);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 0 5%;    
+    cursor: pointer;
+}
+
+.main-search-result img {
+    height: 8.4vh;
+    width: 8.4vh;
+
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.search-result-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-result-info h3 {
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.search-result-info p {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/search.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #171717;
+    color: #fff;
+}
+
+.container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;
+}
+
+@media only screen and (max-width: 1024px) {
+    .container {
+      width: 100%;
+    }
+  }
+.main-search {
+    width: 100%;
+    height: 100%;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 1vh;
+    height: 8vh;
+    /* border-bottom: 1px solid #222; */
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 95%;
+    background-color: #ffffff1f;
+    border: none;
+    border-radius: 10px;
+    padding: 0 15px;
+    color: #fff;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    font-weight: 600;
+}
+
+
+.search-area {
+    height: 76vh;
+    overflow-y: scroll;
+}
+
+.search-area::-webkit-scrollbar {
+    display: none;
+}
+
+.search-page-buttons {
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    gap: 5%;
+    padding: 1vh 5%;
+    justify-content: space-between;
+    border-bottom: 1px solid #222;
+}
+
+.search-page-buttons .inactive {
+    background-color: #0d6efd;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    width: 50%;
+    cursor: pointer;
+}
+
+.search-page-buttons .active {
+    background-color: #ffffff1f;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    width: 50%;
+}

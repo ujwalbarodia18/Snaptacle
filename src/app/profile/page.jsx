@@ -9,9 +9,7 @@ import '../stylesheets/profile.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import Cookies from 'js-cookie'
-// import '../../../../server/public/images/uploads/'
-// import './[profileId]'
-// import '../../../server/images/uploads/newimg.jpg'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Profile = () => {
   const router = useRouter();
@@ -27,7 +25,7 @@ const Profile = () => {
   const handleProfile = async() => {    
     try {
       // const cookiess = document.cookie.split('=');
-      const response = await axios.post('http://localhost:8080/profile', {
+      const response = await axios.post(`${apiurl}/profile`, {
         authorization: Cookies.get('token')
       });
       console.log(response); // Display success message or handle accordingly

@@ -7,6 +7,7 @@ import ProfilePost from '@/app/components/ProfilePost'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const page = () => {
     const [posts, setPosts] = useState();
@@ -14,7 +15,7 @@ const page = () => {
     // const cookiess = document.cookie.split('=');
     const getPost = async(e) => {
         try {
-            const response = await axios.post('http://localhost:8080/search/tags', {
+            const response = await axios.post(`${apiurl}/search/tags`, {
                 searchTag: e.target.value,
                 authorization: Cookies.get('token')
             })

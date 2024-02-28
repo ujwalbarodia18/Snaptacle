@@ -6,16 +6,16 @@ import Navbar from '@/app/components/NavBar'
 import '../../../stylesheets/comments.css'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const page = ({params}) => {
     const [comment, setComment] = useState('');
-    // const cookiess = document.cookie.split('=');
     const [allComments, setAllComments] = useState([]);
     const [loading, setLoading] = useState(true);
     
     const handleComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/addComment/${params.post_id}`, {comment, authorization: Cookies.get('token')});            
+            const response = await axios.post(`${apiurl}/addComment/${params.post_id}`, {comment, authorization: Cookies.get('token')});            
             setComment('')
             console.log(response);
             getComments();
@@ -29,7 +29,7 @@ const page = ({params}) => {
 
     const getComments = async() => {
         try {
-            const response = await axios.post(`http://localhost:8080/getComments/${params.post_id}`, {authorization: Cookies.get('token')});
+            const response = await axios.post(`${apiurl}/getComments/${params.post_id}`, {authorization: Cookies.get('token')});
             console.log(response);
             setAllComments(response.data.comments);
             setLoading(false)

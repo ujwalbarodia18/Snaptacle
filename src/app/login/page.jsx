@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Otp from '../components/Otp';
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Login = () => {
   const router = useRouter();
@@ -15,11 +16,12 @@ const Login = () => {
   const [isOTP, setIsOTP] = useState(false);
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
-
+  
+  
   const handleLogin = async(e) => {   
     e.preventDefault(); 
     try {      
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post(`${apiurl}/login`, {
           username,
           password
       });

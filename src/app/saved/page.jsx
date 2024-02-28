@@ -7,6 +7,7 @@ import ProfilePost from '../components/ProfilePost';
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie';
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const page = () => {
     const router = useRouter();
@@ -14,7 +15,7 @@ const page = () => {
     // const cookiess = document.cookie.split('=');
     const getPost = async() => {
         try {
-            const response = await axios.post('http://localhost:8080/getSavedPost', {
+            const response = await axios.post(`${apiurl}/getSavedPost`, {
                 authorization: Cookies.get('token')
             })
             console.log(response);

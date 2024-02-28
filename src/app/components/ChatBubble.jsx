@@ -3,7 +3,7 @@ import '../stylesheets/chatBubble.css';
 
 const ChatBubble = ({owner, message}) => {
   return (
-    <div className={`main-chat-bubble + ${owner ? 'owner' : ''}`}>
+    <div className={`main-chat-bubble + ${owner ? 'owner' : ''}`} data-testid="chat-bubble">
         <div className="container-bubble">
             <p>{message}</p>
         </div>

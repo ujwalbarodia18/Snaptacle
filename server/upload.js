@@ -13,31 +13,37 @@ const s3 = new AWS.S3({
     secretAccessKey: credentials.secretKey
 });
 
-const uploadFile = async(file) => {    
-    console.log('In upload')
-    console.log('S3: ', s3)
-    const params = {
-        Bucket: credentials.bucketName,
-        Key: uuidv4() + file.name,
-        Body: file.data
-    };
+const uploadFile = async(file) => {   
+    try {
+        console.log('In upload func: ', file)
+        const params = {
+            Bucket: credentials.bucketName,
+            Key: file ? (uuidv4() + file.name) : '',
+            Body: file ? file.data : ''
+        };
+    // }
     
-    return new Promise((resolve, reject) => {
-        s3.upload(params, (err, data) => {
-            if(err) {
-                console.log('In Err')
-                // throw err
-                reject('Error uploading')
-                console.log('Error: ', err)
-            }
-            
-            else {
-                console.log('Data: ', data)
-                console.log('Data Location: ', data.Location)
-                resolve({location: data.Location, key: data.Key})
-            }        
-        })
-    }) 
+    
+        return new Promise((resolve, reject) => {
+            s3.upload(params, (err, data) => {
+                if(err) {
+                    console.log('In Err')
+                    reject('Error uploading')
+                    console.log('Error: ', err)
+                }
+                
+                else {
+                    console.log('Data: ', data)
+                    console.log('Data Location: ', data.Location)
+                    resolve({location: data.Location, key: data.Key})
+                }        
+            })
+        }) 
+    } 
+    catch(err) {
+        console.log('Catch block of upload.js: ', err);
+    }
+    
 }
 
 module.exports = uploadFile

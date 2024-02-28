@@ -9,6 +9,7 @@ import '../../stylesheets/profile.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const ProfileOther = ({params}) => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const ProfileOther = ({params}) => {
   const handleProfile = async() => {
     try {
       console.log('ID: ' ,params.profileId)      
-      const response = await axios.post(`http://localhost:8080/profile/${params.profileId}`, {
+      const response = await axios.post(`${apiurl}/profile/${params.profileId}`, {
         authorization: Cookies.get('token')
       });
       console.log(response); // Display success message or handle accordingly
@@ -44,7 +45,7 @@ const ProfileOther = ({params}) => {
 
   const handleFollow = async() => {
     try {
-      const response = await axios.post(`http://localhost:8080/follow/${params.profileId}`, {
+      const response = await axios.post(`${apiurl}/follow/${params.profileId}`, {
         authorization: Cookies.get('token')
       });
       console.log(response)

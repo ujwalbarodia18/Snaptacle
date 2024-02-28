@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import Router from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie'
+require("dotenv").config();
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Register = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const Register = () => {
   const [authenticationError, setAuthenticationError] = useState(false)
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/register', {
+      const response = await axios.post(`${apiurl}/register`, {
           name,
           username,
           email,

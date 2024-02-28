@@ -4,7 +4,6 @@ import '../stylesheets/story.css'
 import { RiCloseFill } from "@remixicon/react";
 import React, { useEffect, useState } from 'react'
 import ProfileImg from '@/app/components/ProfileImg'
-import axios from 'axios'
 import { useRouter } from 'next/navigation';
 
 const Story = ({story, username, src}) => {

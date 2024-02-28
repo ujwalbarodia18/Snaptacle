@@ -1,0 +1,379 @@
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/titlebar.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+.titlebar {
+    display: flex;    
+    height: 8vh;
+    /* background-color: red; */
+    background-color: #000;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;    
+    /* border-bottom: 1px solid #222; */
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.titlebar > div {
+    font-size: 1.5em;    
+}
+
+.main-title {
+    font-family: 'Mindset';
+}
+
+.other-title {
+    font-weight: 700;
+}
+
+.my-icon {
+    cursor: pointer;
+}
+
+.right-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/storyCircle.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.story-circle-main {
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;    
+    gap: 5px;
+}
+
+.story-img {    
+    /* width: 77px; */
+    height: 90%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;    
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.story-img-circle {
+    border: 2px solid red;
+    padding: 3px;
+}
+
+.story-img img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.my-icon-add {
+    position: absolute;
+    top: 70%;
+    left: 65%;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+
+.my-icon-hide {
+    display: none;
+}
+
+.story-circle-main > p {
+    font-size: 0.65em;
+    text-align: center;
+}
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/post.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+.post {
+    width: 100%;
+    margin-bottom: 1.5vh;
+}
+
+.post-title {
+    padding: 0 10px;
+    width: 100%;
+    height: 9vh;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+
+.post-img {
+    width: 100%;
+    /* height: fit-content; */
+    aspect-ratio: 1/1;
+    /* background-color: blue; */
+}
+
+.post-img > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; 
+}
+
+.interactions {
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+    background-color: #000;
+}
+
+
+.post-caption {
+    padding: 0 10px;
+    background-color: #000;
+}
+
+.post-caption>p{
+    /* display: inline-block; */
+    opacity: 0.8;
+    font-size: 0.85em;    
+}
+
+.post-caption>p>strong {
+    opacity: 1;
+    margin-right: 4px;
+    font-size: 1.2em;
+}
+
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/profileImg.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+.main-profile-img {
+    cursor: pointer;
+}
+
+.small-img {
+    width: 6.5vh;
+    height: 6.5vh;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.big-img {
+    width: 15vh;
+    height: 15vh;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/navbar.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.navbar {    
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 8vh;
+    align-items: center;
+    padding: 7px 5%;
+    border-top: 1px solid #222;    
+}
+
+.nav-icon {
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/feed.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+.main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #171717;
+    color: #fff;
+    background-position: center;
+    background-size: cover;
+    -webkit-backdrop-filter: brightness(0);
+            backdrop-filter: brightness(0);
+    gap: 30px;
+}
+  
+  .container {
+    width: 412px;
+    height: 100%;    
+    background-color: #000;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .container {
+      width: 100%;
+    }
+  }
+
+
+.feed {
+    background-color: #000;
+}
+
+.story-section {
+  width: 100%;
+  height: 110px;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  padding-bottom: 12px;
+  gap: 8px;
+  border-bottom: 1px solid #222;
+  overflow-y: hidden;
+}
+
+.story-section::-webkit-scrollbar {
+  display: none;
+}
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/posts.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+.posts {
+    height: 84vh;
+    /* background-color: grey; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.posts::-webkit-scrollbar {
+    display: none;
+}
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/comment.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+.main-comment {
+    /* background: red; */
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    /* flex-direction: column; */
+    height: 100%;
+    width: 100%;
+    /* border-bottom: 1px solid white; */
+    height: -moz-fit-content;
+    height: fit-content;
+    gap: 10px;
+    padding: 7px;
+}
+
+.comment-img {
+    width: 12%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+  
+.comment-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.comment-details h6 {
+    font-size: 1em;
+}
+
+.comment-details p {
+    font-size: 0.8em;
+}
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./src/app/stylesheets/comments.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+.comments-main {
+    width: 100%;
+    height: 100%;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #000;
+    color: #fff;
+  }
+
+  .title-bar {
+    height: 8vh;
+    padding: 10px 5%;
+    display: flex;    
+    align-items: center;
+  }
+  
+  .title-bar>div {
+    font-size: 1.5em;
+    font-weight: 700;
+    
+  }
+
+  .comments-container {
+    width: 412px;
+    height: 100%;
+    background-color: #000;    
+  }
+  
+  .comments-area {
+    width: 100%;
+    height: 76vh;
+    gap: 12px;
+    overflow-y: scroll;
+  }
+  
+  .comments-area::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  .comments-input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 1vh;
+    height: 8vh;
+    gap: 5px;
+  }
+
+  .comments-input input {
+    border: none;
+    width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffffff1f;
+    outline: none;
+    color: #fff;
+  }
+
+  .comments-input-btn {   
+    width: -moz-fit-content;   
+    width: fit-content; 
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #0d6efd;
+    color: #fff;
+    margin: 0;
+  }
+  
+  

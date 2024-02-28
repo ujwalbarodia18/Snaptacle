@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import '../stylesheets/addPost.css'
 import TitleBar from '../components/TitleBar'
 import { RiAddLine } from "@remixicon/react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import NavBar from '../components/NavBar'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 const page = () => {
 
   const imgInputRef = useRef()
@@ -48,7 +48,7 @@ const page = () => {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const response = await axios.post('http://localhost:8080/createStory', {file, authorization: Cookies.get('token')} ,{
+      const response = await axios.post(`${apiurl}/createStory`, {file, authorization: Cookies.get('token')} ,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },        

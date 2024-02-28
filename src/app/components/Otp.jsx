@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import { RiCloseFill } from "@remixicon/react";
 import Cookies from 'js-cookie'
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Otp = ({token, email, closeOtp}) => {
     const router = useRouter();
@@ -16,7 +16,7 @@ const Otp = ({token, email, closeOtp}) => {
         // const OTP = inputRef.current.value;
         console.log('In verification')
         try {
-            const response = await axios.post('http://localhost:8080/verification', {
+            const response = await axios.post(`${apiurl}/verification`, {
                 OTP,
             });
 

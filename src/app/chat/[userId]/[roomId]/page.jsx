@@ -6,18 +6,17 @@ import ChatBubble from "../../../components/ChatBubble";
 import axios from "axios";
 import CryptoJS from 'crypto-js';
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const secretKey = 'th!s!ismysecretk$y';
 
 // const roomId = "65cc982aed19b9ee7253644165cc986aed19b9ee72536456";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000/", {
+const socket = io('http://localhost:5000/', {
 	query: { token: Cookies.get('token') },
 });
-
-
 
 const page = ({ params }) => {
 	const [messages, setMessages] = useState([]);
@@ -27,22 +26,17 @@ const page = ({ params }) => {
 	const router = useRouter();
     const [userId, setUserId] = useState();
 	const inputRef = useRef();
-
-	
-
-	
-    // const roomId = (userId < params.roomId) ? (userId + params.roomId) : (params.roomId + userId);
 	
 	const getChats = async () => {
 		try {
 			const response = await axios.post(
-				`http://localhost:8080/getChat/${params.roomId}`,
+				`${apiurl}/getChat/${params.roomId}`,
 				{
 					authorization: Cookies.get('token'),
 				}
 			);
 
-			const userRes = await axios.post(`http://localhost:8080/getUser/${params.userId}`, {
+			const userRes = await axios.post(`${apiurl}/getUser/${params.userId}`, {
 				authorization: Cookies.get('token'),
 			});
 			console.log(response.data);

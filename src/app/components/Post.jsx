@@ -1,23 +1,26 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import '../stylesheets/post.css';
-import ProfileImg from '../components/ProfileImg';
+import ProfileImg from './ProfileImg';
 import axios from 'axios';
 import { RiHeartLine, RiChat3Line, RiHeartFill, RiBookmarkLine, RiBookmarkFill } from "@remixicon/react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-// import likeGif from '../Like.gif'
+import CommentSection from './CommentSection';
 
-// import './../../../public/'
-const Post = ({post}) => {
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
+
+const Post = ({post, setPostId}) => {
   const [like, setLike] = useState();
   const [saved, setSaved] = useState();
   const [totalLike, setTotalLike] = useState(0);
   const router = useRouter();
+
+  // const [postId, setPostId] = useState();
   // const cookiess = document.cookie.split('=');
   const handlePost = async() => {
     try {
-      const response = await axios.post(`http://localhost:8080/getPost/${post._id}`, {
+      const response = await axios.post(`${apiurl}/getPost/${post._id}`, {
         authorization: Cookies.get('token')
       });
       // console.log('Post-: ', response)
@@ -33,7 +36,7 @@ const Post = ({post}) => {
   
   const handleLike = async() => {
     try{
-      const response = await axios.post(`http://localhost:8080/like/${post._id}`, {
+      const response = await axios.post(`${apiurl}/like/${post._id}`, {
         authorization: Cookies.get('token')
       });
       console.log(response);
@@ -52,7 +55,7 @@ const Post = ({post}) => {
 
   const handleSave = async() => {
     try {
-      const response = await axios.post(`http://localhost:8080/save/${post._id}`, {
+      const response = await axios.post(`${apiurl}/save/${post._id}`, {
         authorization: Cookies.get('token')
       });
       console.log(response);
@@ -64,7 +67,8 @@ const Post = ({post}) => {
   }
   
   const handleComment = () => {
-    router.push(`/post/comment/${post._id}`);
+    setPostId(post._id);
+    // router.push(`/post/comment/${post._id}`);
   }
 
   const openProfile= (user_id)  => {
@@ -129,7 +133,7 @@ const Post = ({post}) => {
         }
         
         <p><strong onClick={openProfile.bind(`null`, post.user._id)}>{post.user.username}</strong> {post.caption}</p>
-      </div>
+      </div>      
     </div>
   );
 }

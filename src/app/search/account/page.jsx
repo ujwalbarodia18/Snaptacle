@@ -7,6 +7,7 @@ import axios from 'axios'
 // import { Router } from 'next/router'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 // import { Redirect, Route, Routes, Router } from 'react-router-dom'
 
@@ -19,7 +20,7 @@ const Search = () => {
   // const cookiess = document.cookie.split('=');
   const handleSearch = async() => {
     try {
-      const response = await axios.post('http://localhost:8080/search', {
+      const response = await axios.post(`${apiurl}/search`, {
         authorization: Cookies.get('token')
       });
       console.log(response.data.users);
@@ -55,7 +56,7 @@ const Search = () => {
     // const cookiess = document.cookie.split('=');
     
     try {
-      const response = await axios.post(`http://localhost:8080/profile/${id}`, {        
+      const response = await axios.post(`${apiurl}/profile/${id}`, {        
         authorization: Cookies.get('token')
       });
 

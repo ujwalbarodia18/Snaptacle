@@ -3,7 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { describe, it } = require('mocha');
 const app = require('../app'); // Replace with the actual path
-const userModel = require('../models/user'); // Assuming you have the userModel file
+const userModel = require('../models/user.model'); // Assuming you have the userModel file
 const jwt = require('jsonwebtoken');
 
 chai.use(chaiHttp);

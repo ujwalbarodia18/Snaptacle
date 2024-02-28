@@ -5,6 +5,7 @@ import '../stylesheets/titlebar.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import Cookies from 'js-cookie'
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const TitleBar = ({title, icon, page, getUserId}) => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const TitleBar = ({title, icon, page, getUserId}) => {
 
   const getUser = async() => {
     try {
-      const response = await axios.post('http://localhost:8080/getUser',{
+      const response = await axios.post(`${apiurl}/getUser`,{
         authorization: Cookies.get('token')
       });
       getUserId(response.data.user);
@@ -51,7 +52,6 @@ const TitleBar = ({title, icon, page, getUserId}) => {
       }
       
       <div className={fontChanger}>{title}</div>
-      {/* <div onClick={handleLogout}> */}
       <div className='right-icon'>
         {
           page != 'chat' &&
@@ -71,7 +71,6 @@ const TitleBar = ({title, icon, page, getUserId}) => {
               onClick={handleLogout}           
           />
         </div>
-      {/* </div> */}
     </div>
   )
 }

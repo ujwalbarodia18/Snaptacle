@@ -1,13 +1,14 @@
 .comments-main {
     width: 100%;
     height: 100%;
-    margin: 0;  
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     background-color: #000;
-    color: #fff;
+    color: #fff;    
+    position: relative;
   }
 
   .title-bar {
@@ -19,27 +20,25 @@
   
   .title-bar>div {
     font-size: 1.5em;
-    font-weight: 700;
-    
+    font-weight: 700; 
   }
 
   .comments-container {
     width: 412px;
     height: 100%;
-    background-color: #000;    
+    background-color: #222;
   }
-  
   .comments-area {
     width: 100%;
-    height: 76vh;
+    height: 68vh;
     gap: 12px;
     overflow-y: scroll;
+    padding: 0 5px;
   }
   
   .comments-area::-webkit-scrollbar {
     display: none;
   }
-
 
   .comments-input {
     width: 100%;
@@ -70,5 +69,13 @@
     color: #fff;
     margin: 0;
   }
+
+  .close-icon {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    opacity: 0.6;
+    cursor: pointer;
+}
   
   

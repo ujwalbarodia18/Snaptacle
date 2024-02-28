@@ -11,7 +11,7 @@ import CommentSection from '../components/CommentSection'
 import Cookies from 'js-cookie'
 
 import { useRouter } from 'next/navigation';
-
+const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Feed = () => {
   const router = useRouter();
@@ -21,11 +21,13 @@ const Feed = () => {
 
   const [usersWithStories, setUsersWithStories] = useState();
   const [currIdx, setCurrIdx] = useState();
+
+  const [post_id, setPost_id] = useState(null);
   
   const postFeed = async() => {
     console.log('Feed')
     try {
-      const res = await axios.post('http://localhost:8080/feed', {
+      const res = await axios.post(`${apiurl}/feed`, {
         authorization: Cookies.get('token')
       });
 
@@ -44,7 +46,7 @@ const Feed = () => {
 
   const getStories = async(user_id, idx) => {
     try {
-      const response = await axios.post(`http://localhost:8080/getStories/${user_id}`, {
+      const response = await axios.post(`${apiurl}/getStories/${user_id}`, {
         authorization: Cookies.get('token')
       });
       setStories(response.data.stories);  
@@ -64,29 +66,40 @@ const Feed = () => {
       router.push('/createStory');
   }
 
+  const setPostId = (id) => {
+    setPost_id(id);
+  }
+
   useEffect(() => {
     postFeed();
   }, [])
 
   return (
     <div className="main">
-    <div className='container'>
-        <TitleBar title='Snaptacle'></TitleBar>
-        <div className="posts">
-          <div className="story-section">
-            <div className='story-circle-main' onClick={handleCreateStory}>
-              <StoryCircles user={user} circle={false}/>
+      <div className={post_id ? 'container-blur' : 'container'}>
+          <TitleBar title='Snaptacle'></TitleBar>
+          <div className="posts">
+            <div className="story-section">
+              <div className='story-circle-main' onClick={handleCreateStory}>
+                <StoryCircles user={user} circle={false}/>
+              </div>
+              {
+                usersWithStories?.map((user, idx) => {
+                  return <div className='story-circle-main story-circle-border' onClick={getStories.bind('null', user._id, idx)}> <StoryCircles user={user} circle={true}/> </div> 
+                })
+              }
             </div>
-            {
-              usersWithStories?.map((user, idx) => {
-                return <div className='story-circle-main story-circle-border' onClick={getStories.bind('null', user._id, idx)}> <StoryCircles user={user} circle={true}/> </div> 
-              })
-            }
+            <Posts posts={posts} setPostId={setPostId}/>
           </div>
-          <Posts posts={posts}/>
-        </div>
-        <NavBar selected={1}></NavBar>
-    </div>
+          <NavBar selected={1}></NavBar>
+      </div>      
+      {
+        post_id &&
+        <div className="comment-section">
+          <CommentSection post_id={post_id} setPostId={setPostId} />
+        </div>   
+      }
+       
     </div>
   )
 }
