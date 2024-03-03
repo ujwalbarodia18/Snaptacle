@@ -15,6 +15,8 @@
 ## Introduction
 Snaptacle is a social media app developed using Next.js for the client-side and Node.js for the server-side. This documentation provides information on installing, configuring, and running the app, as well as details about its features and API endpoints.
 
+EC2 hosted link: http://3.25.223.68:3000/
+
 ## Installation
 To install Snaptacle, follow these steps:
 
