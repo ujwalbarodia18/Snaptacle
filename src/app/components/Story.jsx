@@ -21,7 +21,7 @@ const Story = ({story, username, src}) => {
                     <ProfileImg src={src}/>
                     <p>{username}</p>
                 </div>
-                <div onClick={handleClose}>
+                <div onClick={handleClose} data-testid="close-icon">
                     <RiCloseFill
                         size={30} 
                         color="white" 

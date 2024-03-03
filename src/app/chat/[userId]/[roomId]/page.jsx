@@ -10,11 +10,10 @@ const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const secretKey = 'th!s!ismysecretk$y';
 
-// const roomId = "65cc982aed19b9ee7253644165cc986aed19b9ee72536456";
 import { useRouter } from 'next/navigation';
 import io from "socket.io-client";
 
-const socket = io('http://localhost:5000/', {
+const socket = io('http://localhost:5000', {
 	query: { token: Cookies.get('token') },
 });
 
@@ -65,16 +64,11 @@ const page = ({ params }) => {
 		getChats();        
 	}, []);
 
-	// if(roomId) {
 		socket.on(params.roomId, (m) => {
 			console.log("Message: ", m);
 			const decrypted = CryptoJS.AES.decrypt(m, secretKey).toString(CryptoJS.enc.Utf8);
 			setMessages([...messages, { message: decrypted, owner: false }]);
 		});
-	// }
-
-            
-	
 
 	const handleSend = async () => {
 		const inputValue = inputRef.current.value;

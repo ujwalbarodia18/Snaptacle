@@ -110,8 +110,8 @@ const Search = () => {
         <div className="search-area">
           <div className='main-search-list' >
             {result?.map(user => 
-                <div onClick={handleClick.bind(null, user._id)} >
-                  <SearchResult key={user._id} user={user}/>
+                <div key={user._id} onClick={handleClick.bind(null, user._id)} >
+                  <SearchResult  user={user}/>
                 </div>
             )}
           </div>

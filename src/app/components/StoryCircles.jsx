@@ -4,12 +4,11 @@ import '../stylesheets/storyCircle.css'
 import { RiAddLine } from "@remixicon/react";
 
 export const StoryCircles = ({user, circle}) => {
-  // console.log('User: ', user)
   return (
-    <div className="story-circle-main">
+    <div className="story-circle-main" data-testid="story-circle-main">
         <div className={`story-img ${circle && 'story-img-circle'}`}>
           <img src={user?.profileImg} alt="" />
-          <div className="my-icon-add-div">
+          <div className="my-icon-add-div" data-testid="add-icon">
             <RiAddLine
               size={25}
               color='white'

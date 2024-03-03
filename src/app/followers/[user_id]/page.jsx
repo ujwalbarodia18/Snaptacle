@@ -5,7 +5,7 @@ import SearchList from '@/app/components/SearchList';
 import SearchResult from '@/app/components/SearchResult';
 import TitleBar from '@/app/components/TitleBar';
 import Navbar from '@/app/components/NavBar';
-import '../../stylesheets/search.css'
+import '../../stylesheets/follow.css'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie';
 const apiurl = process.env.NEXT_PUBLIC_APIURL;
@@ -17,7 +17,7 @@ const page = ({params}) => {
         try {
             const response = await axios.post(`${apiurl}/getUser/${params.user_id}`, {authorization: Cookies.get('token')});
             // console.log(response);
-            await setUser(response.data.user.followers);
+            setUser(response.data.user.followers);
         }
         catch (err) {
             console.log(err)

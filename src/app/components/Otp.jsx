@@ -4,7 +4,6 @@ import '../stylesheets/otp.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import { RiCloseFill } from "@remixicon/react";
-import Cookies from 'js-cookie'
 const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Otp = ({token, email, closeOtp}) => {
@@ -13,7 +12,6 @@ const Otp = ({token, email, closeOtp}) => {
     const [isIncorrect, setIsIncorrect] = useState(false);
     const [OTP, setOTP] = useState();
     const handleVerification = async() => {
-        // const OTP = inputRef.current.value;
         console.log('In verification')
         try {
             const response = await axios.post(`${apiurl}/verification`, {
@@ -32,7 +30,7 @@ const Otp = ({token, email, closeOtp}) => {
         }
     }
   return (
-    <div className="main-otp">
+    <div className="main-otp" data-testid="main-otp">
         <div onClick={closeOtp} className='close-icon'>
                     <RiCloseFill
                         size={30} 
@@ -46,7 +44,7 @@ const Otp = ({token, email, closeOtp}) => {
         {isIncorrect &&
             <p>OTP is wrong</p>
         }        
-        <button onClick={handleVerification}>Verfiy</button>
+        <button onClick={handleVerification}>Verify</button>
     </div>
   )
 }
