@@ -11,9 +11,9 @@ const apiurl = process.env.NEXT_PUBLIC_APIURL;
 const secretKey = 'th!s!ismysecretk$y';
 
 import { useRouter } from 'next/navigation';
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 
-const socket = io('http://localhost:5000', {
+const socket = io('http://localhost:8080', {
 	query: { token: Cookies.get('token') },
 });
 

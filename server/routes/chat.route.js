@@ -2,22 +2,27 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 require("dotenv").config();
-const http = require("http");
+// const http = require("http");
 const cors = require("cors");
-const server = http.createServer(app);
+// const server = http.createServer(app);
+const server = require('../app.js')
 const userModel = require("../models/user.model.js");
 const chatModel = require("../models/chat.model.js");
 const jwt = require("jsonwebtoken");
 
 const authenticateMiddleware = require('../authentication/authMiddleware.js')
 
-
+console.log('Server: ', server)
 const io = require("socket.io")(server, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"],
 	},
 });
+
+console.log('IO: ', io)
+
+
 app.use(cors());
 
 io.use((socket, next) => {
@@ -31,6 +36,7 @@ io.use((socket, next) => {
 	// Verify the JWT token
 	jwt.verify(token, "abcdefghijklmnopqrstuvwxyz", (err, decoded) => {
 		if (err) {
+
 			return next(new Error("Authentication error: Invalid token"));
 		}
 
