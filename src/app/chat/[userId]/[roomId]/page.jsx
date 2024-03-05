@@ -8,12 +8,14 @@ import CryptoJS from 'crypto-js';
 import Cookies from 'js-cookie'
 const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
+const socketPORT = process.env.NEXT_PUBLIC_APIURL;
+
 const secretKey = 'th!s!ismysecretk$y';
 
 import { useRouter } from 'next/navigation';
 import { io } from "socket.io-client";
 
-const socket = io('http://localhost:8080', {
+const socket = io(socketPORT, {
 	query: { token: Cookies.get('token') },
 });
 
