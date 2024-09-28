@@ -16,6 +16,7 @@ const Search = () => {
   const router = useRouter();
   const [result, setResult] = useState([]);
   const [users, setUsers] = useState([]);
+  const [debouce, setDebounce] = useState(null);
   // const searchBar = document.querySelector('.search-bar>input');
   // const cookiess = document.cookie.split('=');
   const handleSearch = async() => {
@@ -34,8 +35,6 @@ const Search = () => {
   }
 
   const filterUser = (e) => {        
-    // const query = searchBar.value;
-    // console.log(query)
     const regex = new RegExp(e.target.value, 'i');
     
     const list = users?.filter((user) => {
@@ -99,7 +98,10 @@ const Search = () => {
       <div className="container">
     <div className="main-search">
         <div className="search-bar">
-            <input type="text" placeholder='Search' onChange={filterUser}/>
+            <input type="text" placeholder='Search' onChange={(e) => {
+                    if(debouce != null) clearTimeout(debouce);
+                    setDebounce(setTimeout(() => filterUser(e), 500));
+                }}/>
         </div>
         
         <div className="search-page-buttons">

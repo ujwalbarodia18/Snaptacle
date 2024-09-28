@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-
-mongoose.connect('mongodb+srv://ujwalb:temp123@cluster0.s8txp8u.mongodb.net/Instagram');
+const mongoUrl = process.env.MONGO_URL;
+mongoose.connect(mongoUrl);
 
 const storySchema = mongoose.Schema({
     image: {

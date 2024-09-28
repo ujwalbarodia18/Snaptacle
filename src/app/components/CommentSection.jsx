@@ -13,16 +13,19 @@ const CommentSection = ({post_id, setPostId}) => {
     const [allComments, setAllComments] = useState([]);
     const [loading, setLoading] = useState(true);
     
-    const handleComment = async () => {
+    const handleComment = async () => {      
+      if(comment == '') return;
+      setComment('');
         try {
             const response = await axios.post(`${apiurl}/addComment/${post_id}`, {comment, authorization: Cookies.get('token')});            
-            setComment('')
+            setComment('');
             console.log(response);
             getComments();
             // setAllComments(response.data.comments);
             // setLoading(false)
         }
         catch(err) {
+          setComment('');
             console.log('Error in Handling comment: ', err);
         }
         

@@ -58,13 +58,14 @@ const AddPost = () => {
 
       console.log(response)
       if (response.data.message) {
-        console.log('File uploaded successfully');
-        setLoading(false)
+        console.log('File uploaded successfully'); 
         router.push('/profile');
       } else {
         console.error('File upload failed');
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false)
       console.error('Error uploading file:', error);
     }
   }

@@ -4,6 +4,7 @@ import '../stylesheets/otp.css'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import { RiCloseFill } from "@remixicon/react";
+import Loader from './Loader';
 const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Otp = ({token, email, closeOtp}) => {
@@ -11,8 +12,10 @@ const Otp = ({token, email, closeOtp}) => {
     const inputRef = useRef();
     const [isIncorrect, setIsIncorrect] = useState(false);
     const [OTP, setOTP] = useState();
+    const [loading, setLoading] = useState(false);
     const handleVerification = async() => {
-        console.log('In verification')
+        console.log('In verification');
+        setLoading(true);
         try {
             const response = await axios.post(`${apiurl}/verification`, {
                 OTP,
@@ -24,8 +27,10 @@ const Otp = ({token, email, closeOtp}) => {
             else {
                 setIsIncorrect(true);
             }
+            setLoading(false);
         }
         catch(err) {
+            setLoading(false);
             console.log('Error occur in verifying: ', err);
         }
     }
@@ -45,6 +50,8 @@ const Otp = ({token, email, closeOtp}) => {
             <p>OTP is wrong</p>
         }        
         <button onClick={handleVerification}>Verify</button>
+
+        {loading && <Loader/>}
     </div>
   )
 }

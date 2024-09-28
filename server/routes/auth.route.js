@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
 
 		res.cookie("token", token, { httpOnly: true });
 		OTP = sendMail(user.email);
-		// Return the JWT to the client
+
 		res.json({ token, userId: user._id, username: user.username, email: user.email});
 	}
 	catch(err) {
@@ -69,12 +69,12 @@ router.post("/login", async (req, res) => {
 router.post('/verification', async(req, res) => {
 	const otp = req.body.OTP;	
 	console.log('otp: ', otp, ' OTP: ', OTP)
-	if(otp == OTP) {
+	if(OTP != null && otp == OTP) {
 		OTP = null;
 		res.send({message: true});
 	}
 	else {
-		OTP = null;
+		// OTP = null;
 		res.send({message: false});
 	}
 })

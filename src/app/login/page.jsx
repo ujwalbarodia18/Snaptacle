@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Otp from '../components/Otp';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import Loader from '../components/Loader';
 const apiurl = process.env.NEXT_PUBLIC_APIURL;
 
 const Login = () => {
@@ -16,10 +17,12 @@ const Login = () => {
   const [isOTP, setIsOTP] = useState(false);
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
+  const [loading, setLoading] = useState(false);
   
   
   const handleLogin = async(e) => {   
     e.preventDefault(); 
+    setLoading(true);
     try {      
       const response = await axios.post(`${apiurl}/login`, {
           username,
@@ -33,19 +36,19 @@ const Login = () => {
         setToken(response.data.token)  
         // axios.defaults.headers.common['Authorization'] = `${token}`;
         // localStorage.setItem('token', token)
+        setLoading(false);
         setIsOTP(true)
         setEmail(response.data.email)
-        
         // router.push('/login/');
       }
       else {
         console.error('Token not found in the server response');        
       }
-      console.log(response.data); // Display success message or handle accordingly
-      
+      console.log(response.data); // Display success message or handle accordingly      
       // router.push('../profile')
     } catch (error) {
       setAuthenticationError(true);
+      setLoading(false);
       console.error('Login failed', error);
     }
   }
@@ -69,7 +72,17 @@ const Login = () => {
           </div>          
         </div>
 
-        {isOTP && <Otp email={email} token={token} closeOtp={closeOtp}/>}
+      {/* {loading && 
+      <div className="uploading">
+        <div><iframe src="https://giphy.com/embed/VseXvvxwowwCc"></iframe></div>
+            <p>Uploading...</p>
+      </div>} */}
+
+    {loading && 
+      <Loader/>}
+
+        {isOTP && 
+        <Otp email={email} token={token} closeOtp={closeOtp}/>}
     </div>
   )
 }

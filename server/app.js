@@ -11,7 +11,7 @@ app.use(cors());
 const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index.route.js');
-const chatRouter = require('./routes/chat.route.js');
+// const chatRouter = require('./routes/chat.route.js');
 const authRouter = require('./routes/auth.route.js');
 const profileRouter = require('./routes/profile.route.js');
 const searchRouter = require('./routes/search.route.js');

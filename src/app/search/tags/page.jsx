@@ -12,11 +12,13 @@ const apiurl = process.env.NEXT_PUBLIC_APIURL;
 const page = () => {
     const [posts, setPosts] = useState();
     const router = useRouter();
+    // let debounce = null;
+    const [debouce, setDebounce] = useState(null);
     // const cookiess = document.cookie.split('=');
     const getPost = async(e) => {
         try {
             const response = await axios.post(`${apiurl}/search/tags`, {
-                searchTag: e.target.value,
+                searchTag: e?.target.value,
                 authorization: Cookies.get('token')
             })
             console.log(response);
@@ -39,7 +41,10 @@ const page = () => {
     <div className="tags-main">
         <div className="tags-container">
             <div className="search-bar">
-                <input type="text" placeholder='Search' onChange={getPost}/>
+                <input type="text" placeholder='Search' onChange={(e) => {
+                    if(debouce != null) clearTimeout(debouce);
+                    setDebounce(setTimeout(() => getPost(e), 500));
+                }}/>
             </div>
 
             <div className="search-page-buttons">
